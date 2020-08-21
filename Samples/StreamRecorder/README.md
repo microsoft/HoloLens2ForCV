@@ -27,6 +27,8 @@ python py/recorder_console.py --workspace_path <output_folder>  --dev_portal_use
 then use the "download" command to download from hololens to the output folder and then use the "process" command.
 
 # Python postprocessing
+To post process the recorded data use the python scripts inside StreamRecorderConverter
+
 Requirements: python3 with numpy, opencv-python, open3d.
 
 The app comes with a set of python scripts for further processing of raw data. Note that all the functionalities provided by these scripts can be accessed via the py/recorder_console.py script which is launching the process_all.py script, so there is principle no need to use single scripts.
