@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Assets">
+      <UniqueIdentifier>872aaa37-23e1-486d-b1cd-bde124e89eb2</UniqueIdentifier>
+      <Extensions>bmp;fbx;gif;jpg;jpeg;tga;tiff;tif;png</Extensions>
+    </Filter>
+    <Filter Include="Cannon">
+      <UniqueIdentifier>{0a4eb835-7a82-43fe-a323-f84c0d6d1092}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cannon\Shaders">
+      <UniqueIdentifier>{9ef1a982-5dc6-43ed-802c-e66f13b6fb60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Media">
+      <UniqueIdentifier>{c2f230db-b947-4c08-89b0-c786f1c2daef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{27010c03-10be-44a3-aa94-a1e76fceece1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AppMain.cpp" />
+    <ClCompile Include="AppView.cpp" />
+    <ClCompile Include="Cannon\MixedReality.cpp">
+      <Filter>Cannon</Filter>
+    </ClCompile>
+    <ClCompile Include="Cannon\FloatingSlate.cpp">
+      <Filter>Cannon</Filter>
+    </ClCompile>
+    <ClCompile Include="Cannon\AnimatedVector.cpp">
+      <Filter>Cannon</Filter>
+    </ClCompile>
+    <ClCompile Include="Cannon\RecordedValue.cpp">
+      <Filter>Cannon</Filter>
+    </ClCompile>
+    <ClCompile Include="Cannon\FloatingText.cpp">
+      <Filter>Cannon</Filter>
+    </ClCompile>
+    <ClCompile Include="RMCameraReader.cpp" />
+    <ClCompile Include="SensorScenario.cpp" />
+    <ClCompile Include="VideoFrameProcessor.cpp" />
+    <ClCompile Include="Tar.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="StringHelpers.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeConverter.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Cannon\TrackedHands.cpp">
+      <Filter>Cannon</Filter>
+    </ClCompile>
+    <ClCompile Include="Cannon\DrawCall.cpp">
+      <Filter>Cannon</Filter>
+    </ClCompile>
+    <ClCompile Include="HeTHaTEyeStream.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AppMain.h" />
+    <ClInclude Include="RMCameraReader.h" />
+    <ClInclude Include="SensorScenario.h" />
+    <ClInclude Include="VideoFrameProcessor.h" />
+    <ClInclude Include="Tar.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="StringHelpers.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeConverter.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="HeTHaTEyeStream.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\LockScreenLogo.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\SplashScreen.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square150x150Logo.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\StoreLogo.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Wide310x150Logo.scale-200.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Media\Textures\coord_axes.png">
+      <Filter>Media</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Cannon\Shaders\Lit_PS.hlsl">
+      <Filter>Cannon\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Cannon\Shaders\Lit_VS.hlsl">
+      <Filter>Cannon\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Cannon\Shaders\Lit_VS_SPS.hlsl">
+      <Filter>Cannon\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Cannon\Shaders\LitTextureColorBlend_PS.hlsl">
+      <Filter>Cannon\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Cannon\Shaders\Unlit_VS.hlsl">
+      <Filter>Cannon\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Cannon\Shaders\UnlitTexture_PS.hlsl">
+      <Filter>Cannon\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Cannon\Shaders\Unlit_VS_SPS.hlsl">
+      <Filter>Cannon\Shaders</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Media\Meshes\coord_axes.obj" />
+  </ItemGroup>
+</Project>
