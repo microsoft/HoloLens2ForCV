@@ -19,10 +19,7 @@ def process_all(w_path, project_hand_eye=False):
     for tar_fname in w_path.glob("*.tar"):
         print(f"Extracting {tar_fname}")
         tar_output = ''
-        if tar_fname.stem == 'PV':
-            tar_output = w_path / Path('rgb')
-        else:
-            tar_output = w_path / Path(tar_fname.stem)
+        tar_output = w_path / Path(tar_fname.stem)
         tar_output.mkdir(exist_ok=True)
         extract_tar_file(tar_fname, tar_output)
 

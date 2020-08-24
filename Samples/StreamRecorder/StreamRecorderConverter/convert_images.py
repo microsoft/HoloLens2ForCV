@@ -64,7 +64,7 @@ def get_width_and_height(path):
 def convert_images(folder):
     p = multiprocessing.Pool(multiprocessing.cpu_count())
     for (img_folder, extension) in folders_extensions:
-        if img_folder == 'rgb':
+        if img_folder == 'PV':
             pv_path = list(folder.glob('*pv.txt'))
             assert len(list(pv_path)) == 1 
             (width, height) = get_width_and_height(pv_path[0])

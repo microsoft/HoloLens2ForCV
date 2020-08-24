@@ -24,8 +24,6 @@ def process_timestamps(path):
 
 def load_pv_data(csv_path):
     with open(csv_path) as f:
-        # TODO: The commented code is cleaner but has trouble loading (long long) timestamps (loaded with the wrong dtype?).
-        # Investigate a solution, e.g. convert from absolute to relative time to keep numbers smaller
         """s = f.readline()
         intrinsics_ox, intrinsics_oy, intrinsics_width, intrinsics_height = ast.literal_eval(s)
         data = np.loadtxt(f, delimiter=',')"""
@@ -73,7 +71,7 @@ def project_hand_eye_to_pv(folder):
     print("")
     head_hat_stream_path = list(folder.glob('*_eye.csv'))[0]
     pv_info_path = list(folder.glob('*pv.txt'))[0]
-    pv_paths = sorted(list((folder / 'rgb').glob('*png')))
+    pv_paths = sorted(list((folder / 'PV').glob('*png')))
     assert(len(pv_paths))
 
     # load head, hand, eye data

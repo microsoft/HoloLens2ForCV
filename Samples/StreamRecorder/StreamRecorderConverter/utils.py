@@ -17,7 +17,7 @@ from hand_defs import HandJointIndex
 # This correponds to the scaling factor used by the TUM slam dataset:w
 DEPTH_SCALING_FACTOR = 5000
 
-folders_extensions = [('rgb', 'bytes'),
+folders_extensions = [('PV', 'bytes'),
                       ('Depth AHaT', '[0-9].pgm'),
                       ('Depth Long Throw', '[0-9].pgm'),
                       ('VLC LF', '[0-9].pgm'),
