@@ -11,8 +11,8 @@ import multiprocessing
 from pathlib import Path
 
 import numpy as np
-from cv2 import cv2
-from open3d import open3d as o3d
+import cv2
+import open3d as o3d
 
 from project_hand_eye_to_pv import load_pv_data, match_timestamp
 from utils import extract_tar_file, load_lut, DEPTH_SCALING_FACTOR, project_on_depth, project_on_pv

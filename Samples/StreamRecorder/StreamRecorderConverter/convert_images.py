@@ -7,7 +7,7 @@
  PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
 """
 import os
-from cv2 import cv2 # to make sure vscode recognize modules
+import cv2
 import argparse
 import numpy as np
 import multiprocessing

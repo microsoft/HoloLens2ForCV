@@ -10,7 +10,7 @@ import argparse
 from pathlib import Path
 
 import numpy as np
-from open3d import open3d as o3d
+import open3d as o3d
 
 from utils import DEPTH_SCALING_FACTOR
 
