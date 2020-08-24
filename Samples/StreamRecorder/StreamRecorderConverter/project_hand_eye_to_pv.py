@@ -24,9 +24,6 @@ def process_timestamps(path):
 
 def load_pv_data(csv_path):
     with open(csv_path) as f:
-        """s = f.readline()
-        intrinsics_ox, intrinsics_oy, intrinsics_width, intrinsics_height = ast.literal_eval(s)
-        data = np.loadtxt(f, delimiter=',')"""
         lines = f.readlines()
 
     # The first line contains info about the intrinsics.
