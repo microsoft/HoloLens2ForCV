@@ -16,22 +16,6 @@ from pathlib import Path
 from utils import folders_extensions
 
 
-def write_to_png(path, is_ahat):
-    print(".", end="", flush=True)
-    # print('Processing ', path)
-
-    output_path = path.replace('pgm', 'png')
-    if os.path.exists(output_path):
-        pass
-
-    img = cv2.imread(path, -1)
-    v_min = img.min()
-    v_max = img.max()
-    img = (img - v_min) / (v_max - v_min)
-
-    cv2.imwrite(output_path, (img * 255).astype(np.uint8))
-
-
 def write_bytes_to_png(bytes_path, width, height):
     print(".", end="", flush=True)
 
@@ -73,11 +57,6 @@ def convert_images(folder):
             print("Processing images")
             for path in paths:
                 p.apply_async(write_bytes_to_png, (str(path), width, height))
-        elif img_folder == 'ahat' or img_folder == 'lt':
-            paths = (folder / img_folder).glob(f'{extension}')
-            is_ahat = (img_folder == 'ahat')
-            for path in paths:
-                p.apply_async(write_to_png, (str(path), is_ahat))
     p.close()
     p.join()
 
