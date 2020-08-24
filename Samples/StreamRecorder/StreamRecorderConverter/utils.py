@@ -5,8 +5,9 @@ from cv2 import cv2
 
 from hand_defs import HandJointIndex
 
+# Depth values are saved inside a 16bit png with the following scaling factor
+# This correponds to the scaling factor used by the TUM slam dataset
 DEPTH_SCALING_FACTOR = 5000
-
 
 folders_extensions = [('rgb', 'bytes'),
                       ('Depth AHaT', '[0-9].pgm'),
