@@ -17,9 +17,9 @@ from utils import DEPTH_SCALING_FACTOR
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='TSDF-Integration with open3d')
-    parser.add_argument("--workspace_path",
+    parser.add_argument("--pinhole_path",
                         required=True,
-                        help="Path to workspace folder used for processing "
+                        help="Path to folder inside recording containing pinhole projected images "
                         "recordings")
 
     parser.add_argument("--voxel_size",
@@ -30,10 +30,10 @@ if __name__ == '__main__':
                         "Bigger values results in denser but slower reconstructions.")
 
     args = parser.parse_args()
-    workspace_path = Path(args.workspace_path)
+    pinhole_path = Path(args.pinhole_path)
     # WARNING: in read_pinhole_camera_trajectory extrinsic gets inverted!
     trajectory = o3d.io.read_pinhole_camera_trajectory(
-        str(workspace_path / 'odometry.log'))
+        str(pinhole_path / 'odometry.log'))
 
     volume = o3d.integration.ScalableTSDFVolume(
         voxel_length=args.voxel_size,
@@ -41,13 +41,12 @@ if __name__ == '__main__':
         color_type=o3d.integration.TSDFVolumeColorType.RGB8)
     #   color_type=o3d.integration.TSDFVolumeColorType.NoColor)
 
-    intrinsic_path = workspace_path / "calibration.txt"
-    rgb_file_list = workspace_path / "rgb.txt"
-    depth_file_list = workspace_path / "depth.txt"
+    intrinsic_path = pinhole_path / "calibration.txt"
+    rgb_file_list = pinhole_path / "rgb.txt"
+    depth_file_list = pinhole_path / "depth.txt"
     print(f"Integrating {len(trajectory.parameters)} images")
 
     intrinsic_np = np.loadtxt(str(intrinsic_path))
-    print(intrinsic_np)
 
     with open(str(rgb_file_list)) as rf, open(str(depth_file_list)) as df:
         i = 0
@@ -56,8 +55,8 @@ if __name__ == '__main__':
             depth_line = df.readline()
             if not rgb_line or not depth_line:
                 break
-            rgb_path = str(workspace_path / rgb_line.split()[1])
-            depth_path = str(workspace_path / depth_line.split()[1])
+            rgb_path = str(pinhole_path / rgb_line.split()[1])
+            depth_path = str(pinhole_path / depth_line.split()[1])
 
             print(".", end="", flush=True)
             color = o3d.io.read_image(rgb_path)
@@ -80,13 +79,13 @@ if __name__ == '__main__':
 
     mesh = volume.extract_triangle_mesh()
     mesh.compute_vertex_normals()
-    mesh_path = str(workspace_path / 'tsdf-mesh.ply')
+    mesh_path = str(pinhole_path / 'tsdf-mesh.ply')
     print(f"Saving mesh to {mesh_path}")
     o3d.io.write_triangle_mesh(mesh_path, mesh)
 
     pc = volume.extract_point_cloud()
     pc.estimate_normals()
-    pc_path = str(workspace_path / 'tsdf-pc.ply')
+    pc_path = str(pinhole_path / 'tsdf-pc.ply')
     print(f"Saving point cloud to {pc_path}")
     o3d.io.write_point_cloud(pc_path, pc)
 

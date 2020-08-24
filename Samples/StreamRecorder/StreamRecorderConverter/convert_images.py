@@ -66,7 +66,7 @@ def convert_images(folder):
     for (img_folder, extension) in folders_extensions:
         if img_folder == 'rgb':
             pv_path = list(folder.glob('*pv.txt'))
-            assert(len(list(pv_path)) == 1)
+            assert len(list(pv_path)) == 1 
             (width, height) = get_width_and_height(pv_path[0])
 
             paths = (folder / img_folder).glob('*bytes')
@@ -84,8 +84,7 @@ def convert_images(folder):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Convert images')
-    parser.add_argument("--workspace_path", required=True,
-                        help="Path to workspace folder used for processing "
-                        "recordings")
+    parser.add_argument("--recording_path", required=True,
+                        help="Path to recording folder")
     args = parser.parse_args()
-    convert_images(Path(args.workspace_path))
+    convert_images(Path(args.recording_path))

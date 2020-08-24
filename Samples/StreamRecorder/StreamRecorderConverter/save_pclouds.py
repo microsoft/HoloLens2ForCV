@@ -337,10 +337,9 @@ def save_pclouds(folder,
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Save pcloud.')
-    parser.add_argument("--workspace_path",
+    parser.add_argument("--recording_path",
                         required=True,
-                        help="Path to workspace folder used for processing "
-                        "recordings")
+                        help="Path to recording folder")
     parser.add_argument("--sensor_name",
                         required=False,
                         default="Depth Long Throw", 
@@ -378,7 +377,7 @@ if __name__ == '__main__':
                              "to work on postprocessed ones (e.g. masked AHAT)")
 
     args = parser.parse_args()
-    save_pclouds(Path(args.workspace_path),
+    save_pclouds(Path(args.recording_path),
                  args.sensor_name,
                  args.cam_space,
                  args.discard_no_rgb,

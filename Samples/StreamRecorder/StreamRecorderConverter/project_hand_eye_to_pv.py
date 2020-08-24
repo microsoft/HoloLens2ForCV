@@ -141,8 +141,8 @@ def project_hand_eye_to_pv(folder):
 if __name__ == "__main__":
     # pass the path to folder being processed
     parser = argparse.ArgumentParser(description='Process recorded data.')
-    parser.add_argument('--workspace_path', required=True,
-                        help='Path to workspace folder used for processing recordings')
+    parser.add_argument("--recording_path", required=True,
+                        help="Path to recording folder")
 
     args = parser.parse_args()
-    project_hand_eye_to_pv(Path(args.workspace_path))
+    project_hand_eye_to_pv(Path(args.recording_path))

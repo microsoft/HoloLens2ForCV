@@ -45,8 +45,8 @@ def process_all(w_path, project_hand_eye=False):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Process recorded data.')
-    parser.add_argument("--workspace_path", required=True,
-                        help="Path to workspace folder used for processing recordings")
+    parser.add_argument("--recording_path", required=True,
+                        help="Path to recording folder")
     parser.add_argument("--project_hand_eye",
                         required=False,
                         action='store_true',
@@ -54,6 +54,6 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    w_path = Path(args.workspace_path)
+    w_path = Path(args.recording_path)
 
     process_all(w_path, args.project_hand_eye)
