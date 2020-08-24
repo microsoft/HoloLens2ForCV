@@ -41,17 +41,17 @@ The app comes with a set of python scripts. Note that all the functionalities pr
 
 - All the scripts listed below can be launched by running `process_all.py`:
 ```
-  python process_all.py --workspace_path <path_to_capture_folder>
+  python process_all.py --recording_path <path_to_capture_folder>
 ```
 
 - PV (RGB) frames are saved in raw format. To obtain RGB png images, you can run the `convert_images.py` script:
 ```
-  python convert_images.py --workspace_path <path_to_capture_folder>
+  python convert_images.py --recording_path <path_to_capture_folder>
 ```
 
 - To see hand tracking and eye gaze tracking results projected on PV images, you can run:
 ```
-  python project_hand_eye_to_pv.py --workspace_path <path_to_capture_folder>
+  python project_hand_eye_to_pv.py --recording_path <path_to_capture_folder>
 ```
 
 - To obtain (colored) point clouds from depth images and save them as ply files, you can run the `save_pclouds.py` script.
@@ -60,5 +60,5 @@ All the point clouds are computed in the world coordinate system, unless the `ca
 
 - To try our sample showcasing Truncated Signed Distance Function (TSDF) integration with open3d, you can run:
 ```
-  python tsdf-integration.py --workspace_path <path_to_pinhole_projected_camera>
+  python tsdf-integration.py --pinhole_path <path_to_pinhole_projected_camera>
 ```
