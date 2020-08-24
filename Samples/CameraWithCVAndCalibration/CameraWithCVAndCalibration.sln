@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.852
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CameraWithCVAndCalibration", "CameraWithCVAndCalibration\CameraWithCVAndCalibration.vcxproj", "{82233FEE-8C41-45E4-82E0-53CD1F0A56F8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM64 = Debug|ARM64
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|ARM64 = Release|ARM64
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{82233FEE-8C41-45E4-82E0-53CD1F0A56F8}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{82233FEE-8C41-45E4-82E0-53CD1F0A56F8}.Debug|ARM64.Build.0 = Debug|ARM64
+		{82233FEE-8C41-45E4-82E0-53CD1F0A56F8}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{82233FEE-8C41-45E4-82E0-53CD1F0A56F8}.Debug|x64.ActiveCfg = Debug|x64
+		{82233FEE-8C41-45E4-82E0-53CD1F0A56F8}.Debug|x64.Build.0 = Debug|x64
+		{82233FEE-8C41-45E4-82E0-53CD1F0A56F8}.Debug|x64.Deploy.0 = Debug|x64
+		{82233FEE-8C41-45E4-82E0-53CD1F0A56F8}.Debug|x86.ActiveCfg = Debug|Win32
+		{82233FEE-8C41-45E4-82E0-53CD1F0A56F8}.Debug|x86.Build.0 = Debug|Win32
+		{82233FEE-8C41-45E4-82E0-53CD1F0A56F8}.Debug|x86.Deploy.0 = Debug|Win32
+		{82233FEE-8C41-45E4-82E0-53CD1F0A56F8}.Release|ARM64.ActiveCfg = Release|ARM64
+		{82233FEE-8C41-45E4-82E0-53CD1F0A56F8}.Release|ARM64.Build.0 = Release|ARM64
+		{82233FEE-8C41-45E4-82E0-53CD1F0A56F8}.Release|ARM64.Deploy.0 = Release|ARM64
+		{82233FEE-8C41-45E4-82E0-53CD1F0A56F8}.Release|x64.ActiveCfg = Release|x64
+		{82233FEE-8C41-45E4-82E0-53CD1F0A56F8}.Release|x64.Build.0 = Release|x64
+		{82233FEE-8C41-45E4-82E0-53CD1F0A56F8}.Release|x64.Deploy.0 = Release|x64
+		{82233FEE-8C41-45E4-82E0-53CD1F0A56F8}.Release|x86.ActiveCfg = Release|Win32
+		{82233FEE-8C41-45E4-82E0-53CD1F0A56F8}.Release|x86.Build.0 = Release|Win32
+		{82233FEE-8C41-45E4-82E0-53CD1F0A56F8}.Release|x86.Deploy.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E5020498-DD53-4315-9E76-C6ED4BB0FFD7}
+	EndGlobalSection
+EndGlobal
