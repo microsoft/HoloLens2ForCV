@@ -70,7 +70,7 @@ def save_single_pcloud(shared_dict,
                        clamp_min,
                        clamp_max,
                        depth_path_suffix,
-                       project_pinhole
+                       disable_project_pinhole
                        ):
     suffix = '_cam' if save_in_cam_space else ''
     output_path = str(path)[:-4] + f'{suffix}.ply'
@@ -85,7 +85,7 @@ def save_single_pcloud(shared_dict,
     # load depth img
     img = cv2.imread(str(path), -1)
     height, width = img.shape
-    assert len(lut) == width * height 
+    assert len(lut) == width * height
 
     # Clamp values if requested
     if clamp_min > 0 and clamp_max > 0:
@@ -115,8 +115,8 @@ def save_single_pcloud(shared_dict,
                 # get the pv frame which is closest in time
                 target_id = match_timestamp(timestamp, pv_timestamps)
                 pv_ts = pv_timestamps[target_id]
-                rgb_path = str(folder / 'rgb' / f'{pv_ts}.png')
-                assert Path(rgb_path).exists() 
+                rgb_path = str(folder / 'PV' / f'{pv_ts}.png')
+                assert Path(rgb_path).exists()
                 pv_img = cv2.imread(rgb_path)
 
                 # Project from depth to pv going via world space
@@ -124,9 +124,9 @@ def save_single_pcloud(shared_dict,
                     xyz, pv_img, pv2world_transforms[target_id], 
                     focal_lengths[target_id], principal_point)
 
-                # Project depth on virtual pinhole camera and save corresponding 
+                # Project depth on virtual pinhole camera and save corresponding
                 # rgb image inside <workspace>/pinhole_projection folder
-                if project_pinhole:
+                if not disable_project_pinhole:
                     # Create virtual pinhole camera
                     scale = 1
                     width = 320 * scale
@@ -239,7 +239,7 @@ def save_pclouds(folder,
                  clamp_min=0.,
                  clamp_max=0.,
                  depth_path_suffix='',
-                 project_pinhole=True
+                 disable_project_pinhole=False
                  ):
     print("")
     print("Saving point clouds")
@@ -253,10 +253,9 @@ def save_pclouds(folder,
 
     # check if we have pv
     has_pv = False
-    has_left_vlc = False
     try:
         if __name__ == '__main__':
-            extract_tar_file(str(folder / 'PV.tar'), folder / 'rgb')
+            extract_tar_file(str(folder / 'PV.tar'), folder / 'PV')
     except FileNotFoundError:
         pass
 
@@ -282,7 +281,7 @@ def save_pclouds(folder,
     depth_path.mkdir(exist_ok=True)
 
     pinhole_folder = None
-    if project_pinhole and has_pv:
+    if not disable_project_pinhole and has_pv:
         # Create folders for pinhole projection
         pinhole_folder = folder / 'pinhole_projection'
         pinhole_folder.mkdir(exist_ok=True)
@@ -325,13 +324,13 @@ def save_pclouds(folder,
                                clamp_min,
                                clamp_max,
                                depth_path_suffix,
-                               project_pinhole
+                               disable_project_pinhole
                                )
         )
     multiprocess_pool.close()
     multiprocess_pool.join()
 
-    if project_pinhole and has_pv:
+    if not disable_project_pinhole and has_pv:
         save_output_txt_files(pinhole_folder, shared_dict)
 
 
@@ -340,20 +339,16 @@ if __name__ == '__main__':
     parser.add_argument("--recording_path",
                         required=True,
                         help="Path to recording folder")
-    parser.add_argument("--sensor_name",
-                        required=False,
-                        default="Depth Long Throw", 
-                        choices=["Depth Long Throw", "Depth AHaT"],
-                        help="Name of the depth camera")
     parser.add_argument("--cam_space",
                         required=False,
                         action='store_true',
                         help="Save in camera space (points will not be colored)")
-    parser.add_argument("--project_pinhole",
+    parser.add_argument("--disable_project_pinhole",
                         required=False,
-                        default=True,
+                        default=False,
                         action='store_true',
-                        help="Undistort depth and project to pinhole camera")
+                        help="Do not undistort depth and project to pinhole camera, \
+                        results in faster conversion to pointcloud")
     parser.add_argument("--discard_no_rgb",
                         required=False,
                         action='store_true',
@@ -362,13 +357,13 @@ if __name__ == '__main__':
                         required=False,
                         type=float,
                         default=0.,
-                        help="Remove depth values less than min"
+                        help="Remove depth values less than clamp_min, unused when 0"
                         "recordings")
     parser.add_argument("--clamp_max",
                         required=False,
                         type=float,
                         default=0.,
-                        help="Remove depth values greater than min"
+                        help="Remove depth values greater than clamp_max, unused when 0"
                         "recordings")
     parser.add_argument("--depth_path_suffix",
                         default="",
@@ -377,11 +372,13 @@ if __name__ == '__main__':
                              "to work on postprocessed ones (e.g. masked AHAT)")
 
     args = parser.parse_args()
-    save_pclouds(Path(args.recording_path),
-                 args.sensor_name,
-                 args.cam_space,
-                 args.discard_no_rgb,
-                 args.clamp_min,
-                 args.clamp_max,
-                 args.depth_path_suffix,
-                 args.project_pinhole)
+    for sensor_name in ["Depth Long Throw", "Depth AHaT"]:
+        if (args.recording_path / f"{sensor_name}.tar").exists():
+            save_pclouds(Path(args.recording_path),
+                         sensor_name,
+                         args.cam_space,
+                         args.discard_no_rgb,
+                         args.clamp_min,
+                         args.clamp_max,
+                         args.depth_path_suffix,
+                         not args.disable_project_pinhole)
