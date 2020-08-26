@@ -137,11 +137,22 @@ void SlateCameraRenderer::EnsureTextureForCameraFrame(IResearchModeSensorFrame* 
 
     if (m_texture2D == nullptr)
     {
+        UINT32 textureWidth = 0;
+         
         pSensorFrame->GetResolution(&resolution);
+
+        if (m_pRMCameraSensor->GetSensorType() == DEPTH_LONG_THROW)
+        {
+            textureWidth = resolution.Width * 2;
+        }
+        else
+        {
+            textureWidth = resolution.Width;
+        }
 
         m_texture2D = std::make_shared<BasicHologram::Texture2D>(
             m_deviceResources,
-            resolution.Width,
+            textureWidth,
             resolution.Height);
     }
 }
@@ -285,6 +296,31 @@ void SlateCameraRenderer::UpdateTextureFromCameraFrame(IResearchModeSensorFrame*
                 *((UINT32*)(mappedTexture)+((texture2D->GetRowPitch() / 4) * i + (resolution.Width - j - 1))) = pixel;
             }
         }
+
+        if (m_pRMCameraSensor->GetSensorType() == DEPTH_LONG_THROW)
+        {
+            const UINT16 *pAbImage = nullptr;
+            pDepthFrame->GetAbDepthBuffer(&pAbImage, &outBufferCount);
+
+            for (UINT i = 0; i < resolution.Height; i++)
+            {
+                for (UINT j = 0; j < resolution.Width; j++)
+                {
+                    UINT32 pixel = 0;
+                    BYTE inputPixel = ConvertDepthPixel(
+                        pAbImage[resolution.Width * i + j],
+                        pSigma ? pSigma[resolution.Width * i + j] : 0,
+                        mask,
+                        maxshort,
+                        0,
+                        maxClampDepth);
+
+                    pixel = inputPixel | (inputPixel << 8) | (inputPixel << 16);
+
+                    *((UINT32*)(mappedTexture)+((texture2D->GetRowPitch() / 4) * i + resolution.Width + (resolution.Width - j - 1))) = pixel;
+                }
+            }
+        }
     }
     
 	if (pVLCFrame)
@@ -305,14 +341,14 @@ void SlateCameraRenderer::UpdateTextureFromCameraFrame(IResearchModeSensorFrame*
 void SlateCameraRenderer::GetModelVertices(std::vector<VertexPositionColor> &modelVertices)
 {
 
-    modelVertices.push_back({ XMFLOAT3(-0.01f, -0.2f, -0.2f), XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT2(0.0f, 0.0f)});
-    modelVertices.push_back({ XMFLOAT3(-0.01f, -0.2f,  0.2f), XMFLOAT3(0.0f, 0.0f, 1.0f), XMFLOAT2(0.0f, 1.0f)});
-    modelVertices.push_back({ XMFLOAT3(-0.01f,  0.2f, -0.2f), XMFLOAT3(0.0f, 1.0f, 0.0f), XMFLOAT2(1.0f, 0.0f)});
-    modelVertices.push_back({ XMFLOAT3(-0.01f,  0.2f,  0.2f), XMFLOAT3(0.0f, 1.0f, 1.0f), XMFLOAT2(1.0f, 1.0f)});
-    modelVertices.push_back({ XMFLOAT3(0.01f, -0.2f, -0.2f), XMFLOAT3(1.0f, 0.0f, 0.0f), XMFLOAT2(0.0f, 0.0f)});
-    modelVertices.push_back({ XMFLOAT3(0.01f, -0.2f,  0.2f), XMFLOAT3(1.0f, 0.0f, 1.0f), XMFLOAT2(0.0f, 1.0f)});
-    modelVertices.push_back({ XMFLOAT3(0.01f,  0.2f, -0.2f), XMFLOAT3(1.0f, 1.0f, 0.0f), XMFLOAT2(1.0f, 0.0f)});
-    modelVertices.push_back({ XMFLOAT3(0.01f,  0.2f,  0.2f), XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT2(1.0f, 1.0f)});
+    modelVertices.push_back({ XMFLOAT3(-0.01f, -(m_slateWidth / 2), -(m_slateHeight / 2)), XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT2(0.0f, 0.0f)});
+    modelVertices.push_back({ XMFLOAT3(-0.01f, -(m_slateWidth / 2),  (m_slateHeight / 2)), XMFLOAT3(0.0f, 0.0f, 1.0f), XMFLOAT2(0.0f, 1.0f)});
+    modelVertices.push_back({ XMFLOAT3(-0.01f,  (m_slateWidth / 2), -(m_slateHeight / 2)), XMFLOAT3(0.0f, 1.0f, 0.0f), XMFLOAT2(1.0f, 0.0f)});
+    modelVertices.push_back({ XMFLOAT3(-0.01f,  (m_slateWidth / 2),  (m_slateHeight / 2)), XMFLOAT3(0.0f, 1.0f, 1.0f), XMFLOAT2(1.0f, 1.0f)});
+    modelVertices.push_back({ XMFLOAT3(0.01f, -(m_slateWidth / 2), -(m_slateHeight / 2)), XMFLOAT3(1.0f, 0.0f, 0.0f), XMFLOAT2(0.0f, 0.0f)});
+    modelVertices.push_back({ XMFLOAT3(0.01f, -(m_slateWidth / 2),  (m_slateHeight / 2)), XMFLOAT3(1.0f, 0.0f, 1.0f), XMFLOAT2(0.0f, 1.0f)});
+    modelVertices.push_back({ XMFLOAT3(0.01f,  (m_slateWidth / 2), -(m_slateHeight / 2)), XMFLOAT3(1.0f, 1.0f, 0.0f), XMFLOAT2(1.0f, 0.0f)});
+    modelVertices.push_back({ XMFLOAT3(0.01f,  (m_slateWidth / 2),  (m_slateHeight / 2)), XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT2(1.0f, 1.0f)});
 }
 
 

@@ -168,7 +168,7 @@ void SensorVisualizationScenario::IntializeModelRendering()
 
         float3 offset;
         offset.x = 0.05f;
-        offset.y = -0.05f;
+        offset.y = 0.05f;
         offset.z = 0.1f;
 
         xaxisOriginRenderer->SetOffset(offset);
@@ -198,7 +198,7 @@ void SensorVisualizationScenario::IntializeModelRendering()
     if (m_pLFCameraSensor)
     {
         // Initialize the sample hologram.
-        auto slateCameraRenderer = std::make_shared<SlateCameraRenderer>(m_deviceResources, m_pLFCameraSensor, camConsentGiven, &camAccessCheck);
+        auto slateCameraRenderer = std::make_shared<SlateCameraRenderer>(m_deviceResources, 0.4f, 0.4f, m_pLFCameraSensor, camConsentGiven, &camAccessCheck);
 
         float3 offset;
         offset.x = -0.2f;
@@ -214,7 +214,7 @@ void SensorVisualizationScenario::IntializeModelRendering()
     if (m_pRFCameraSensor)
     {
         // Initialize the sample hologram.
-        auto slateCameraRenderer = std::make_shared<SlateCameraRenderer>(m_deviceResources, m_pRFCameraSensor, camConsentGiven, &camAccessCheck);
+        auto slateCameraRenderer = std::make_shared<SlateCameraRenderer>(m_deviceResources, 0.4f, 0.4f, m_pRFCameraSensor, camConsentGiven, &camAccessCheck);
 
         float3 offset;
         offset.x = 0.2f;
@@ -230,7 +230,7 @@ void SensorVisualizationScenario::IntializeModelRendering()
         DirectX::XMMATRIX modelRotation = DirectX::XMMatrixRotationAxis(DirectX::XMVectorSet(0.f, 0.f, 1.f, 0.f), DirectX::XM_PIDIV2);
 
         // Initialize the sample hologram.
-        auto slateCameraRenderer = std::make_shared<SlateCameraRenderer>(m_deviceResources, m_pLTSensor, nullptr, nullptr);
+        auto slateCameraRenderer = std::make_shared<SlateCameraRenderer>(m_deviceResources, 0.8f, 0.4f, m_pLTSensor, nullptr, nullptr);
 
         float3 offset;
         offset.x = -0.2f;
@@ -245,7 +245,7 @@ void SensorVisualizationScenario::IntializeModelRendering()
     if (m_pAHATSensor)
     {
         // Initialize the sample hologram.
-        auto slateCameraRenderer = std::make_shared<SlateCameraRenderer>(m_deviceResources, m_pAHATSensor, nullptr, nullptr);
+        auto slateCameraRenderer = std::make_shared<SlateCameraRenderer>(m_deviceResources, 0.4f, 0.4f, m_pAHATSensor, nullptr, nullptr);
 
         float3 offset;
         offset.x = 0.2f;

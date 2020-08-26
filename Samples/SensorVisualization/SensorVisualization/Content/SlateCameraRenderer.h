@@ -23,13 +23,15 @@ namespace BasicHologram
         public ModelRenderer
     {
     public:
-        SlateCameraRenderer(std::shared_ptr<DX::DeviceResources> const& deviceResources, IResearchModeSensor *pLLSensor, HANDLE hasData, ResearchModeSensorConsent *pCamAccessConsent) :
+        SlateCameraRenderer(std::shared_ptr<DX::DeviceResources> const& deviceResources, float fWidth, float fHeight, IResearchModeSensor *pLLSensor, HANDLE hasData, ResearchModeSensorConsent *pCamAccessConsent) :
             ModelRenderer(deviceResources)
         {
             m_pRMCameraSensor = pLLSensor;
             m_pRMCameraSensor->AddRef();
             m_pSensorFrame = nullptr;
             m_frameCallback = nullptr;
+            m_slateWidth = fWidth;
+            m_slateHeight = fHeight;
 
             m_pixelShaderFile = L"ms-appx:///PixelShader.cso";
 
@@ -74,6 +76,8 @@ namespace BasicHologram
 		IResearchModeSensor *m_pRMCameraSensor = nullptr;
 		IResearchModeSensorFrame* m_pSensorFrame;
         uint64_t m_refreshTimeInMilliseconds = 0;
+        float m_slateWidth;
+        float m_slateHeight;
 
         std::function<void(IResearchModeSensorFrame*, PVOID frameCtx)> m_frameCallback;
         PVOID m_frameCtx;
