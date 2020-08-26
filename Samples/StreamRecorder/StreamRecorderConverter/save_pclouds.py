@@ -373,7 +373,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     for sensor_name in ["Depth Long Throw", "Depth AHaT"]:
-        if (args.recording_path / f"{sensor_name}.tar").exists():
+        if (Path(args.recording_path) / f"{sensor_name}.tar").exists():
             save_pclouds(Path(args.recording_path),
                          sensor_name,
                          args.cam_space,
