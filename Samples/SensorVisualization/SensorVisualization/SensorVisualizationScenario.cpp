@@ -150,8 +150,14 @@ void SensorVisualizationScenario::IntializeModelRendering()
     SlateCameraRenderer* pLLSlateCameraRenderer = nullptr;
 
     {
-        DirectX::XMMATRIX groupRotation = DirectX::XMMatrixRotationAxis(DirectX::XMVectorSet(1.f, 0.f, 0.f, 0.f), -DirectX::XM_PIDIV2/2);
-        groupRotation = groupRotation * DirectX::XMMatrixRotationAxis(DirectX::XMVectorSet(0.f, 1.f, 0.f, 0.f), (-DirectX::XM_PIDIV2 / 2));
+        static constexpr DirectX::XMFLOAT4X4 XMFloat4x4YZSwap{
+            1, 0, 0, 0,
+            0, 0, 1, 0,
+            0, 1, 0, 0,
+            0, 0, 0, 1 };
+
+        DirectX::XMMATRIX groupRotation = DirectX::XMMatrixRotationAxis(DirectX::XMVectorSet(0.f, 0.f, 1.f, 0.f), -DirectX::XM_PIDIV2);
+        groupRotation = DirectX::XMLoadFloat4x4(&XMFloat4x4YZSwap) * groupRotation;
 
         auto xaxisOriginRenderer = std::make_shared<XAxisModel>(m_deviceResources, 0.15f, 0.005f);
 
@@ -163,7 +169,7 @@ void SensorVisualizationScenario::IntializeModelRendering()
         float3 offset;
         offset.x = 0.05f;
         offset.y = -0.05f;
-        offset.z = 0.01f;
+        offset.z = 0.1f;
 
         xaxisOriginRenderer->SetOffset(offset);
         m_xaxisOriginRenderer = xaxisOriginRenderer;
