@@ -272,7 +272,6 @@ void SlateCameraRenderer::UpdateTextureFromCameraFrame(IResearchModeSensorFrame*
             for (UINT j = 0; j < resolution.Width; j++)
             {
                 UINT32 pixel = 0;
-                //BYTE inputPixel = pImage[resolution.Width * i + j];
                 BYTE inputPixel = ConvertDepthPixel(
                     pDepth[resolution.Width * i + j],
                     pSigma ? pSigma[resolution.Width * i + j] : 0,
@@ -283,7 +282,7 @@ void SlateCameraRenderer::UpdateTextureFromCameraFrame(IResearchModeSensorFrame*
 
                 pixel = inputPixel | (inputPixel << 8) | (inputPixel << 16);
 
-                *((UINT32*)(mappedTexture)+((m_texture2D->GetRowPitch() / 4) * i + j)) = pixel;
+                *((UINT32*)(mappedTexture)+((texture2D->GetRowPitch() / 4) * i + (resolution.Width - j - 1))) = pixel;
             }
         }
     }

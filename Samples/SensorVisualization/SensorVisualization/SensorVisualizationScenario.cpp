@@ -221,6 +221,8 @@ void SensorVisualizationScenario::IntializeModelRendering()
 
     if (m_pLTSensor)
     {
+        DirectX::XMMATRIX modelRotation = DirectX::XMMatrixRotationAxis(DirectX::XMVectorSet(0.f, 0.f, 1.f, 0.f), DirectX::XM_PIDIV2);
+
         // Initialize the sample hologram.
         auto slateCameraRenderer = std::make_shared<SlateCameraRenderer>(m_deviceResources, m_pLTSensor, nullptr, nullptr);
 
@@ -230,6 +232,7 @@ void SensorVisualizationScenario::IntializeModelRendering()
         offset.z = 0.0f;
 
         slateCameraRenderer->SetOffset(offset);
+        slateCameraRenderer->SetModelTransform(modelRotation);
         m_modelRenderers.push_back(slateCameraRenderer);
     }
 
