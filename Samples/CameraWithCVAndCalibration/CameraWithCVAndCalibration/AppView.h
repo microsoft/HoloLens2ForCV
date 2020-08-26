@@ -17,7 +17,7 @@
 namespace BasicHologram
 {
     // IFrameworkView class. Connects the app with the Windows shell and handles application lifecycle events.
-    class AppView sealed : public winrt::implements<AppView, winrt::Windows::ApplicationModel::Core::IFrameworkView>
+    class AppView : public winrt::implements<AppView, winrt::Windows::ApplicationModel::Core::IFrameworkView>
     {
     public:
         // IFrameworkView methods.
@@ -61,13 +61,13 @@ namespace BasicHologram
         winrt::Windows::Graphics::Holographic::HolographicSpace m_holographicSpace = nullptr;
     };
 
-    class AppViewSource sealed : public winrt::implements<AppViewSource, winrt::Windows::ApplicationModel::Core::IFrameworkViewSource>
+    class AppViewSource : public winrt::implements<AppViewSource, winrt::Windows::ApplicationModel::Core::IFrameworkViewSource>
     {
     public:
         // IFrameworkViewSource method.
         winrt::Windows::ApplicationModel::Core::IFrameworkView CreateView();
 
     private:
-        AppView holographicView;
+        winrt::com_ptr<AppView> holographicView;
     };
 }
