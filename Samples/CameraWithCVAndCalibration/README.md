@@ -1,0 +1,5 @@
+
+# Summary
+
+The 'Samples\CameraWithCVAndCalibration' is a Holographic UWP application that demonstrates uses OpenCV to detect arUco markers in the two frontal gray-scale cameras and triangulate the detections. Coordinate frames for sensors are rendered relative to the rig coordinate frame. The application is built starting from a DX11 template app described here: https://docs.microsoft.com/en-us/windows/mixed-reality/creating-a-holographic-directx-project. The app adds a CalibrationProjectionVisualizationScenario class that manages and initializes sensors and creates DX rendering models for the app. It replaces the single spinning cube from the template with multiple models used to show calibration visualizations. Samples\CameraWithCVAndCalibration\OpenCvInstallArm64-412d contains an arm64 header and library distribution of Opencv. These require git lfs.
+
