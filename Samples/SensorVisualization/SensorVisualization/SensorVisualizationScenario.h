@@ -50,5 +50,7 @@ namespace BasicHologram
         std::shared_ptr<ZAxisModel>                                 m_zaxisOriginRenderer;
         std::vector<std::shared_ptr<ModelRenderer>>                 m_modelRenderers;
         std::shared_ptr<AccelRenderer>                              m_AccelRenderer;
+        std::shared_ptr<SlateCameraRenderer>                        m_LFCameraRenderer;
+        std::shared_ptr<SlateCameraRenderer>                        m_LTCameraRenderer;
     };
 }

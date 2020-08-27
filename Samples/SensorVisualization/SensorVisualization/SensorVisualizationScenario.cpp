@@ -209,6 +209,8 @@ void SensorVisualizationScenario::IntializeModelRendering()
         m_modelRenderers.push_back(slateCameraRenderer);
 
         pLLSlateCameraRenderer = slateCameraRenderer.get();
+
+        m_LFCameraRenderer = slateCameraRenderer;
     }
 
     if (m_pRFCameraSensor)
@@ -230,7 +232,7 @@ void SensorVisualizationScenario::IntializeModelRendering()
         DirectX::XMMATRIX modelRotation = DirectX::XMMatrixRotationAxis(DirectX::XMVectorSet(0.f, 0.f, 1.f, 0.f), DirectX::XM_PIDIV2);
 
         // Initialize the sample hologram.
-        auto slateCameraRenderer = std::make_shared<SlateCameraRenderer>(m_deviceResources, 0.8f, 0.4f, m_pLTSensor, nullptr, nullptr);
+        auto slateCameraRenderer = std::make_shared<SlateCameraRenderer>(m_deviceResources, 0.8f, 0.4f, m_pLTSensor, camConsentGiven, &camAccessCheck);
 
         float3 offset;
         offset.x = -0.2f;
@@ -240,12 +242,14 @@ void SensorVisualizationScenario::IntializeModelRendering()
         slateCameraRenderer->SetOffset(offset);
         slateCameraRenderer->SetModelTransform(modelRotation);
         m_modelRenderers.push_back(slateCameraRenderer);
+
+        m_LTCameraRenderer = slateCameraRenderer;
     }
 
     if (m_pAHATSensor)
     {
         // Initialize the sample hologram.
-        auto slateCameraRenderer = std::make_shared<SlateCameraRenderer>(m_deviceResources, 0.4f, 0.4f, m_pAHATSensor, nullptr, nullptr);
+        auto slateCameraRenderer = std::make_shared<SlateCameraRenderer>(m_deviceResources, 0.4f, 0.4f, m_pAHATSensor, camConsentGiven, &camAccessCheck);
 
         float3 offset;
         offset.x = 0.2f;
@@ -294,6 +298,8 @@ void SensorVisualizationScenario::UpdateModels(DX::StepTimer &timer)
     DirectX::XMMATRIX xscaleTransform;
     DirectX::XMMATRIX yscaleTransform;
     DirectX::XMMATRIX zscaleTransform;
+    uint64_t lastLFTimeStamp = 0;
+    uint64_t lastLTTimeStamp = 0;
 
     for (int i = 0; i < m_modelRenderers.size(); i++)
     {
@@ -302,12 +308,12 @@ void SensorVisualizationScenario::UpdateModels(DX::StepTimer &timer)
 
     m_AccelRenderer->GetAccelSample(&accelSample);
 
-    sprintf(printString, "####Visualization Accel: % 3.4f % 3.4f % 3.4f %f\n",
-        accelSample.x,
-        accelSample.y,
-        accelSample.z,
-        sqrt(accelSample.x * accelSample.x + accelSample.y * accelSample.y + accelSample.z * accelSample.z));
-    OutputDebugStringA(printString);
+//  sprintf(printString, "####Visualization Accel: % 3.4f % 3.4f % 3.4f %f\n",
+//      accelSample.x,
+//      accelSample.y,
+//      accelSample.z,
+//      sqrt(accelSample.x * accelSample.x + accelSample.y * accelSample.y + accelSample.z * accelSample.z));
+//  OutputDebugStringA(printString);
 
     vectorLength = sqrt(accelSample.x * accelSample.x + accelSample.y * accelSample.y + accelSample.z * accelSample.z);
 
@@ -323,6 +329,19 @@ void SensorVisualizationScenario::UpdateModels(DX::StepTimer &timer)
 
     zscaleTransform = DirectX::XMMatrixScaling(1.0f, 1.0f, scalez);
     m_zaxisOriginRenderer->SetModelTransform(zscaleTransform);
+
+    lastLFTimeStamp = m_LFCameraRenderer->GetLastTimeStamp();
+    if (m_LTCameraRenderer)
+    {
+        lastLTTimeStamp = m_LTCameraRenderer->GetLastTimeStamp();
+    }
+
+//  sprintf(printString, "####Times: %I64d %I64d %I64d\n",
+//      lastLFTimeStamp,
+//      lastLTTimeStamp,
+//      lastLFTimeStamp - lastLTTimeStamp);
+//
+//  OutputDebugStringA(printString);
 }
 
 void SensorVisualizationScenario::RenderModels()

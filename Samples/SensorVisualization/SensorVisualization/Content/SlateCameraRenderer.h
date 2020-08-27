@@ -60,6 +60,16 @@ namespace BasicHologram
             m_frameCtx = frameCtx;
         }
 
+        ResearchModeSensorType GetSensorType()
+        {
+            return m_pRMCameraSensor->GetSensorType();
+        }
+
+        uint64_t GetLastTimeStamp()
+        {
+            return m_lastHostTicks;
+        }
+
     protected:
 
         void GetModelVertices(std::vector<VertexPositionColor> &returnedModelVertices);
@@ -76,6 +86,9 @@ namespace BasicHologram
 		IResearchModeSensor *m_pRMCameraSensor = nullptr;
 		IResearchModeSensorFrame* m_pSensorFrame;
         uint64_t m_refreshTimeInMilliseconds = 0;
+        uint64_t m_sensorRefreshTime = 0;
+        uint64_t m_lastHostTicks = 0;
+
         float m_slateWidth;
         float m_slateHeight;
 

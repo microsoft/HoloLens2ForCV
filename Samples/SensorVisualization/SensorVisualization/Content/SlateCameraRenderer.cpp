@@ -80,8 +80,11 @@ void SlateCameraRenderer::CameraUpdateThread(SlateCameraRenderer* pSlateCameraRe
         uint64_t uqpcNow;
         QueryPerformanceCounter(&qpcNow);
         uqpcNow = qpcNow.QuadPart;
+        ResearchModeSensorTimestamp timeStamp;
 
         winrt::check_hresult(pSlateCameraRenderer->m_pRMCameraSensor->GetNextBuffer(&pSensorFrame));
+
+        pSensorFrame->GetTimeStamp(&timeStamp);
 
         {
             if (lastQpcNow != 0)
@@ -90,6 +93,11 @@ void SlateCameraRenderer::CameraUpdateThread(SlateCameraRenderer* pSlateCameraRe
                     (1000 *
                     (uqpcNow - lastQpcNow)) /
                     qpf.QuadPart;
+            }
+
+            if (pSlateCameraRenderer->m_lastHostTicks != 0)
+            {
+                pSlateCameraRenderer->m_sensorRefreshTime = timeStamp.HostTicks - pSlateCameraRenderer->m_lastHostTicks;
             }
 
             std::lock_guard<std::mutex> guard(pSlateCameraRenderer->m_mutex);
@@ -106,6 +114,7 @@ void SlateCameraRenderer::CameraUpdateThread(SlateCameraRenderer* pSlateCameraRe
 
             pSlateCameraRenderer->m_pSensorFrame = pSensorFrame;
             lastQpcNow = uqpcNow;
+            pSlateCameraRenderer->m_lastHostTicks = timeStamp.HostTicks;
         }
     }
 
@@ -125,7 +134,7 @@ void SlateCameraRenderer::UpdateSlateTexture()
 
         UpdateTextureFromCameraFrame(m_pSensorFrame, m_texture2D);
 
-        sprintf(printString, "####CameraSlate %I64d\n", m_refreshTimeInMilliseconds);
+        sprintf(printString, "####CameraSlate %I64d %I64d\n", m_refreshTimeInMilliseconds, m_sensorRefreshTime);
         OutputDebugStringA(printString);
     }
 }
