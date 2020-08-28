@@ -290,7 +290,7 @@ void SensorVisualizationScenario::UpdateModels(DX::StepTimer &timer)
 {
     HRESULT hr = S_OK;
     DirectX::XMFLOAT3 accelSample;
-    char printString[1000];
+//  char printString[1000];
     float vectorLength = 0.0f;
     float scalex = 0;
     float scaley = 0;
