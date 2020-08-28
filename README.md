@@ -21,7 +21,7 @@ The repository contains four sample apps:
 
    * The [CalibrationVisualization app](https://github.com/microsoft/HoloLens2ForCV/tree/main/Samples/CalibrationVisualization) shows a visualization of depth and gray-scale cameras coordinate frames live on device.
    * The [CameraWithCVAndCalibration app](https://github.com/microsoft/HoloLens2ForCV/tree/main/Samples/CameraWithCVAndCalibration) shows how to process Research Mode streams live on device: it uses OpenCV to detect arUco markers in the two frontal gray-scale cameras and triangulate the detections.
-   * The [SensorVisualization app](https://github.com/microsoft/HoloLens2ForCV/tree/main/Samples/SensorVisualization) shows ho to visualize Research Mode streams live on device.
+   * The [SensorVisualization app](https://github.com/microsoft/HoloLens2ForCV/tree/main/Samples/SensorVisualization) shows how to visualize Research Mode streams live on device.
    * The [StreamRecorder app](https://github.com/microsoft/HoloLens2ForCV/tree/main/Samples/StreamRecorder) shows how to capture simultaneously Research Mode streams (depth and gray-scale cameras) plus head, hand and eye tracking, save the streams to disk on device. It also contains a set of python scripts for offline postprocessing.
 
 The StreamRecorder app uses [Cannon](https://github.com/microsoft/HoloLens2ForCV/tree/main/Samples/StreamRecorder/StreamRecorderApp/Cannon), a collection of wrappers and utility code for building native mixed reality apps using C++, Direct3D and Windows Perception APIs. It can be used as-is outside Research Mode for fast and easy native development.
