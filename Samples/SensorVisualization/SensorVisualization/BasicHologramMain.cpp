@@ -41,8 +41,6 @@ BasicHologramMain::BasicHologramMain(std::shared_ptr<DX::DeviceResources> const&
         m_scenario = std::make_shared<SensorVisualizationScenario>(m_deviceResources); // Visualize three sensors
     }
 
-    m_scenario->IntializeSensors();
-
     // Register to be notified if the device is lost or recreated.
     m_deviceResources->RegisterDeviceNotify(this);
 
@@ -68,8 +66,9 @@ void BasicHologramMain::SetHolographicSpace(HolographicSpace const& holographicS
 
 #ifdef DRAW_SAMPLE_CONTENT
 
+    m_scenario->IntializeSensors();
     m_scenario->IntializeModelRendering();
-    
+
     m_spatialInputHandler = std::make_unique<SpatialInputHandler>();
 
 #endif
