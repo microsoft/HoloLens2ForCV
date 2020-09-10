@@ -32,6 +32,8 @@
 #include "Content\SlateCameraRenderer.h"
 #include "Content\SpatialInputHandler.h"
 #include "Content\AccelRenderer.h"
+#include "Content\GyroRenderer.h"
+#include "Content\MagRenderer.h"
 #include "Content\XAxisModel.h"
 #include "Content\YAxisModel.h"
 #include "Content\ZAxisModel.h"

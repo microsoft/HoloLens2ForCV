@@ -20,24 +20,24 @@
 namespace BasicHologram
 {
     // This sample renderer instantiates a basic rendering pipeline.
-    class AccelRenderer
+    class GyroRenderer
     {
     public:
-        AccelRenderer(std::shared_ptr<DX::DeviceResources> const& deviceResources, IResearchModeSensor *pAccelSensor, HANDLE hasData, ResearchModeSensorConsent *pCamAccessConsent)
+        GyroRenderer(std::shared_ptr<DX::DeviceResources> const& deviceResources, IResearchModeSensor *pAccelSensor, HANDLE hasData, ResearchModeSensorConsent *pCamAccessConsent)
         {
-            m_pAccelSensor = pAccelSensor;
-            m_pAccelSensor->AddRef();
-            m_pAccelUpdateThread = new std::thread(AccelUpdateThread, this, hasData, pCamAccessConsent);
+            m_pGyroSensor = pAccelSensor;
+            m_pGyroSensor->AddRef();
+            m_pAccelUpdateThread = new std::thread(GyroUpdateThread, this, hasData, pCamAccessConsent);
         }
-        virtual ~AccelRenderer()
+        virtual ~GyroRenderer()
         {
             m_fExit = true;
             m_pAccelUpdateThread->join();
 
-            if (m_pAccelSensor)
+            if (m_pGyroSensor)
             {
-                m_pAccelSensor->CloseStream();
-                m_pAccelSensor->Release();
+                m_pGyroSensor->CloseStream();
+                m_pGyroSensor->Release();
             }
         }
         void Update(DX::StepTimer const& timer);
@@ -49,19 +49,19 @@ namespace BasicHologram
         // Property accessors.
 		void SetSensorFrame(IResearchModeSensorFrame* pSensorFrame);
 
-        void GetAccelSample(DirectX::XMFLOAT3 *pAccleSample);
+        void GetGyroSample(DirectX::XMFLOAT3 *pGyroSample);
 
     private:
-        static void AccelRenderer::AccelUpdateThread(AccelRenderer* pSpinningCube, HANDLE hasData, ResearchModeSensorConsent *pCamAccessConsent);
-        void AccelUpdateLoop();
+        static void GyroRenderer::GyroUpdateThread(GyroRenderer* pSpinningCube, HANDLE hasData, ResearchModeSensorConsent *pCamAccessConsent);
+        void GyroUpdateLoop();
 
         // If the current D3D Device supports VPRT, we can avoid using a geometry
         // shader just to set the render target array index.
         bool                                            m_usingVprtShaders = false;
 
-		IResearchModeSensor *m_pAccelSensor = nullptr;
+		IResearchModeSensor *m_pGyroSensor = nullptr;
 		IResearchModeSensorFrame* m_pSensorFrame;
-        DirectX::XMFLOAT3 m_accelSample;
+        DirectX::XMFLOAT3 m_gyroSample;
         std::mutex m_sampleMutex;
 
         std::thread *m_pAccelUpdateThread;

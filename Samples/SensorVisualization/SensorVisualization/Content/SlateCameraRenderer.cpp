@@ -135,7 +135,7 @@ void SlateCameraRenderer::UpdateSlateTexture()
         UpdateTextureFromCameraFrame(m_pSensorFrame, m_texture2D);
 
         sprintf(printString, "####CameraSlate %I64d %I64d\n", m_refreshTimeInMilliseconds, m_sensorRefreshTime);
-        OutputDebugStringA(printString);
+        //OutputDebugStringA(printString);
     }
 }
 
@@ -226,7 +226,7 @@ void SlateCameraRenderer::UpdateTextureFromCameraFrame(IResearchModeSensorFrame*
         pVLCFrame->GetExposure(&exposure);
 
         sprintf(printString, "####CameraGain %d %I64d\n", gain, exposure);
-        OutputDebugStringA(printString);
+        //OutputDebugStringA(printString);
 
         void* mappedTexture =
             texture2D->MapCPUTexture<void>(

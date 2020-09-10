@@ -44,12 +44,17 @@ namespace BasicHologram
         IResearchModeSensor *m_pLTSensor = nullptr;
         IResearchModeSensor *m_pAHATSensor = nullptr;
         IResearchModeSensor *m_pAccelSensor = nullptr;
+        IResearchModeSensor *m_pGyroSensor = nullptr;
+        IResearchModeSensor *m_pMagSensor = nullptr;
+
 
         std::shared_ptr<XAxisModel>                                 m_xaxisOriginRenderer;
         std::shared_ptr<YAxisModel>                                 m_yaxisOriginRenderer;
         std::shared_ptr<ZAxisModel>                                 m_zaxisOriginRenderer;
         std::vector<std::shared_ptr<ModelRenderer>>                 m_modelRenderers;
         std::shared_ptr<AccelRenderer>                              m_AccelRenderer;
+        std::shared_ptr<GyroRenderer>                               m_GyroRenderer;
+        std::shared_ptr<MagRenderer>                                m_MagRenderer;
         std::shared_ptr<SlateCameraRenderer>                        m_LFCameraRenderer;
         std::shared_ptr<SlateCameraRenderer>                        m_LTCameraRenderer;
     };
