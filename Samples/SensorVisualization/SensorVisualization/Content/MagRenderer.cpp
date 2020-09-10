@@ -10,7 +10,7 @@
 //*********************************************************
 
 #include "pch.h"
-#include "AccelRenderer.h"
+#include "MagRenderer.h"
 #include "Common\DirectXHelper.h"
 #include <mutex>
 
@@ -20,7 +20,7 @@ using namespace winrt::Windows::Foundation::Numerics;
 using namespace winrt::Windows::UI::Input::Spatial;
 
 // Loads vertex and pixel shaders from files and instantiates the cube geometry.
-void AccelRenderer::AccelUpdateLoop()
+void MagRenderer::MagUpdateLoop()
 {
     uint64_t lastSocTick = 0; 
     uint64_t lastHupTick = 0; 
@@ -30,30 +30,30 @@ void AccelRenderer::AccelUpdateLoop()
     // Cache the QueryPerformanceFrequency
     QueryPerformanceFrequency(&qpf);
 
-    winrt::check_hresult(m_pAccelSensor->OpenStream());
+    winrt::check_hresult(m_pGyroSensor->OpenStream());
 
     while (!m_fExit)
     {
         char printString[1000];
 
         IResearchModeSensorFrame* pSensorFrame = nullptr;
-        IResearchModeAccelFrame *pSensorAccelFrame = nullptr;
+        IResearchModeMagFrame *pMagFrame = nullptr;
         ResearchModeSensorTimestamp timeStamp;
-        const AccelDataStruct *pAccelBuffer = nullptr;
+        const MagDataStruct *pMagBuffer = nullptr;
         size_t BufferOutLength;
 
-        winrt::check_hresult(m_pAccelSensor->GetNextBuffer(&pSensorFrame));
+        winrt::check_hresult(m_pGyroSensor->GetNextBuffer(&pSensorFrame));
 
-        winrt::check_hresult(pSensorFrame->QueryInterface(IID_PPV_ARGS(&pSensorAccelFrame)));
+        winrt::check_hresult(pSensorFrame->QueryInterface(IID_PPV_ARGS(&pMagFrame)));
 
         {
             std::lock_guard<std::mutex> guard(m_sampleMutex);
 
-            winrt::check_hresult(pSensorAccelFrame->GetCalibratedAccelaration(&m_accelSample));
+            winrt::check_hresult(pMagFrame->GetMagnetometer(&m_magSample));
         }
 
-        winrt::check_hresult(pSensorAccelFrame->GetCalibratedAccelarationSamples(
-            &pAccelBuffer,
+        winrt::check_hresult(pMagFrame->GetMagnetometerSamples(
+            &pMagBuffer,
             &BufferOutLength));
 
         lastHupTick = 0;
@@ -64,18 +64,18 @@ void AccelRenderer::AccelUpdateLoop()
             pSensorFrame->GetTimeStamp(&timeStamp);
             if (lastHupTick != 0)
             {
-                if (pAccelBuffer[i].VinylHupTicks < lastHupTick)
+                if (pMagBuffer[i].VinylHupTicks < lastHupTick)
                 {
-                    sprintf(printString, "####ACCEL BAD HUP ORDERING\n");
+                    sprintf(printString, "####MAG BAD HUP ORDERING\n");
                     OutputDebugStringA(printString);
                     DebugBreak();
                 }
-                sprintf(printString, " %I64d", (pAccelBuffer[i].VinylHupTicks - lastHupTick) / 1000); // Microseconds
+                sprintf(printString, " %I64d", (pMagBuffer[i].VinylHupTicks - lastHupTick) / 1000); // Microseconds
 
                 hupTimeDeltas = hupTimeDeltas + printString;
 
             }
-            lastHupTick = pAccelBuffer[i].VinylHupTicks;
+            lastHupTick = pMagBuffer[i].VinylHupTicks;
         }
 
         hupTimeDeltas = hupTimeDeltas + "\n";
@@ -99,14 +99,13 @@ void AccelRenderer::AccelUpdateLoop()
                 DebugBreak();
             }
 
-            sprintf(printString, "####Accel: % 3.4f % 3.4f % 3.4f %f %I64d %I64d\n",
-                m_accelSample.x,
-                m_accelSample.y,
-                m_accelSample.z,
-                sqrt(m_accelSample.x * m_accelSample.x + m_accelSample.y * m_accelSample.y + m_accelSample.z * m_accelSample.z),
+            sprintf(printString, "####MAG: % 3.4f % 3.4f % 3.4f %I64d %I64d\n",
+                m_magSample.x,
+                m_magSample.y,
+                m_magSample.z,
                     (((timeStamp.HostTicks - lastSocTick) * 1000) / timeStamp.HostTicksPerSecond), // Milliseconds
                 timeInMilliseconds);
-            //OutputDebugStringA(printString);
+            OutputDebugStringA(printString);
         }
         lastSocTick = timeStamp.HostTicks;
         lastQpcNow = uqpcNow;
@@ -116,40 +115,40 @@ void AccelRenderer::AccelUpdateLoop()
             pSensorFrame->Release();
         }
 
-        if (pSensorAccelFrame)
+        if (pMagFrame)
         {
-            pSensorAccelFrame->Release();
+            pMagFrame->Release();
         }
     }
 
-    winrt::check_hresult(m_pAccelSensor->CloseStream());
+    winrt::check_hresult(m_pGyroSensor->CloseStream());
 }
 
-void AccelRenderer::GetAccelSample(DirectX::XMFLOAT3 *pAccelSample)
+void MagRenderer::GetMagSample(DirectX::XMFLOAT3 *pMagSample)
 {
     std::lock_guard<std::mutex> guard(m_sampleMutex);
 
-    *pAccelSample = m_accelSample;
+    *pMagSample = m_magSample;
 }
 
 // This function uses a SpatialPointerPose to position the world-locked hologram
 // two meters in front of the user's heading.
-void AccelRenderer::PositionHologram(SpatialPointerPose const& pointerPose)
+void MagRenderer::PositionHologram(SpatialPointerPose const& pointerPose)
 {
 }
 
 // Called once per frame. Rotates the cube, and calculates and sets the model matrix
 // relative to the position transform indicated by hologramPositionTransform.
-void AccelRenderer::Update(DX::StepTimer const& timer)
+void MagRenderer::Update(DX::StepTimer const& timer)
 {
 }
 
-void AccelRenderer::SetSensorFrame(IResearchModeSensorFrame* pSensorFrame)
+void MagRenderer::SetSensorFrame(IResearchModeSensorFrame* pSensorFrame)
 {
 
 }
 
-void AccelRenderer::AccelUpdateThread(AccelRenderer* pAccelRenderer, HANDLE hasData, ResearchModeSensorConsent *pCamAccessConsent)
+void MagRenderer::MagUpdateThread(MagRenderer* pMagRenderer, HANDLE hasData, ResearchModeSensorConsent *pCamAccessConsent)
 {
     HRESULT hr = S_OK;
 
@@ -197,10 +196,10 @@ void AccelRenderer::AccelUpdateThread(AccelRenderer* pAccelRenderer, HANDLE hasD
         return;
     }
 
-    pAccelRenderer->AccelUpdateLoop();
+    pMagRenderer->MagUpdateLoop();
 }
 
-void AccelRenderer::UpdateSample()
+void MagRenderer::UpdateSample()
 {
     HRESULT hr = S_OK;
 }

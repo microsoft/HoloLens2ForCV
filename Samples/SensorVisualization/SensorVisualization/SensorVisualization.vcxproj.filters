@@ -66,6 +66,12 @@
     <ClCompile Include="Content\VectorModel.cpp">
       <Filter>Content</Filter>
     </ClCompile>
+    <ClCompile Include="Content\GyroRenderer.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
+    <ClCompile Include="Content\MagRenderer.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -104,6 +110,12 @@
     </ClInclude>
     <ClInclude Include="SensorVisualizationScenario.h" />
     <ClInclude Include="Content\VectorModel.h">
+      <Filter>Content</Filter>
+    </ClInclude>
+    <ClInclude Include="Content\GyroRenderer.h">
+      <Filter>Content</Filter>
+    </ClInclude>
+    <ClInclude Include="Content\MagRenderer.h">
       <Filter>Content</Filter>
     </ClInclude>
   </ItemGroup>

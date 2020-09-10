@@ -10,7 +10,7 @@
 //*********************************************************
 
 #include "pch.h"
-#include "AccelRenderer.h"
+#include "GyroRenderer.h"
 #include "Common\DirectXHelper.h"
 #include <mutex>
 
@@ -20,7 +20,7 @@ using namespace winrt::Windows::Foundation::Numerics;
 using namespace winrt::Windows::UI::Input::Spatial;
 
 // Loads vertex and pixel shaders from files and instantiates the cube geometry.
-void AccelRenderer::AccelUpdateLoop()
+void GyroRenderer::GyroUpdateLoop()
 {
     uint64_t lastSocTick = 0; 
     uint64_t lastHupTick = 0; 
@@ -30,30 +30,30 @@ void AccelRenderer::AccelUpdateLoop()
     // Cache the QueryPerformanceFrequency
     QueryPerformanceFrequency(&qpf);
 
-    winrt::check_hresult(m_pAccelSensor->OpenStream());
+    winrt::check_hresult(m_pGyroSensor->OpenStream());
 
     while (!m_fExit)
     {
         char printString[1000];
 
         IResearchModeSensorFrame* pSensorFrame = nullptr;
-        IResearchModeAccelFrame *pSensorAccelFrame = nullptr;
+        IResearchModeGyroFrame *pGyroFrame = nullptr;
         ResearchModeSensorTimestamp timeStamp;
-        const AccelDataStruct *pAccelBuffer = nullptr;
+        const GyroDataStruct *pGyroBuffer = nullptr;
         size_t BufferOutLength;
 
-        winrt::check_hresult(m_pAccelSensor->GetNextBuffer(&pSensorFrame));
+        winrt::check_hresult(m_pGyroSensor->GetNextBuffer(&pSensorFrame));
 
-        winrt::check_hresult(pSensorFrame->QueryInterface(IID_PPV_ARGS(&pSensorAccelFrame)));
+        winrt::check_hresult(pSensorFrame->QueryInterface(IID_PPV_ARGS(&pGyroFrame)));
 
         {
             std::lock_guard<std::mutex> guard(m_sampleMutex);
 
-            winrt::check_hresult(pSensorAccelFrame->GetCalibratedAccelaration(&m_accelSample));
+            winrt::check_hresult(pGyroFrame->GetCalibratedGyro(&m_gyroSample));
         }
 
-        winrt::check_hresult(pSensorAccelFrame->GetCalibratedAccelarationSamples(
-            &pAccelBuffer,
+        winrt::check_hresult(pGyroFrame->GetCalibratedGyroSamples(
+            &pGyroBuffer,
             &BufferOutLength));
 
         lastHupTick = 0;
@@ -64,18 +64,18 @@ void AccelRenderer::AccelUpdateLoop()
             pSensorFrame->GetTimeStamp(&timeStamp);
             if (lastHupTick != 0)
             {
-                if (pAccelBuffer[i].VinylHupTicks < lastHupTick)
+                if (pGyroBuffer[i].VinylHupTicks < lastHupTick)
                 {
-                    sprintf(printString, "####ACCEL BAD HUP ORDERING\n");
+                    sprintf(printString, "####GYRO BAD HUP ORDERING\n");
                     OutputDebugStringA(printString);
                     DebugBreak();
                 }
-                sprintf(printString, " %I64d", (pAccelBuffer[i].VinylHupTicks - lastHupTick) / 1000); // Microseconds
+                sprintf(printString, " %I64d", (pGyroBuffer[i].VinylHupTicks - lastHupTick) / 1000); // Microseconds
 
                 hupTimeDeltas = hupTimeDeltas + printString;
 
             }
-            lastHupTick = pAccelBuffer[i].VinylHupTicks;
+            lastHupTick = pGyroBuffer[i].VinylHupTicks;
         }
 
         hupTimeDeltas = hupTimeDeltas + "\n";
@@ -99,14 +99,13 @@ void AccelRenderer::AccelUpdateLoop()
                 DebugBreak();
             }
 
-            sprintf(printString, "####Accel: % 3.4f % 3.4f % 3.4f %f %I64d %I64d\n",
-                m_accelSample.x,
-                m_accelSample.y,
-                m_accelSample.z,
-                sqrt(m_accelSample.x * m_accelSample.x + m_accelSample.y * m_accelSample.y + m_accelSample.z * m_accelSample.z),
+            sprintf(printString, "####Gyro: % 3.4f % 3.4f % 3.4f %I64d %I64d\n",
+                m_gyroSample.x,
+                m_gyroSample.y,
+                m_gyroSample.z,
                     (((timeStamp.HostTicks - lastSocTick) * 1000) / timeStamp.HostTicksPerSecond), // Milliseconds
                 timeInMilliseconds);
-            //OutputDebugStringA(printString);
+            OutputDebugStringA(printString);
         }
         lastSocTick = timeStamp.HostTicks;
         lastQpcNow = uqpcNow;
@@ -116,40 +115,40 @@ void AccelRenderer::AccelUpdateLoop()
             pSensorFrame->Release();
         }
 
-        if (pSensorAccelFrame)
+        if (pGyroFrame)
         {
-            pSensorAccelFrame->Release();
+            pGyroFrame->Release();
         }
     }
 
-    winrt::check_hresult(m_pAccelSensor->CloseStream());
+    winrt::check_hresult(m_pGyroSensor->CloseStream());
 }
 
-void AccelRenderer::GetAccelSample(DirectX::XMFLOAT3 *pAccelSample)
+void GyroRenderer::GetGyroSample(DirectX::XMFLOAT3 *pGyroSample)
 {
     std::lock_guard<std::mutex> guard(m_sampleMutex);
 
-    *pAccelSample = m_accelSample;
+    *pGyroSample = m_gyroSample;
 }
 
 // This function uses a SpatialPointerPose to position the world-locked hologram
 // two meters in front of the user's heading.
-void AccelRenderer::PositionHologram(SpatialPointerPose const& pointerPose)
+void GyroRenderer::PositionHologram(SpatialPointerPose const& pointerPose)
 {
 }
 
 // Called once per frame. Rotates the cube, and calculates and sets the model matrix
 // relative to the position transform indicated by hologramPositionTransform.
-void AccelRenderer::Update(DX::StepTimer const& timer)
+void GyroRenderer::Update(DX::StepTimer const& timer)
 {
 }
 
-void AccelRenderer::SetSensorFrame(IResearchModeSensorFrame* pSensorFrame)
+void GyroRenderer::SetSensorFrame(IResearchModeSensorFrame* pSensorFrame)
 {
 
 }
 
-void AccelRenderer::AccelUpdateThread(AccelRenderer* pAccelRenderer, HANDLE hasData, ResearchModeSensorConsent *pCamAccessConsent)
+void GyroRenderer::GyroUpdateThread(GyroRenderer* pGyroRenderer, HANDLE hasData, ResearchModeSensorConsent *pCamAccessConsent)
 {
     HRESULT hr = S_OK;
 
@@ -197,10 +196,10 @@ void AccelRenderer::AccelUpdateThread(AccelRenderer* pAccelRenderer, HANDLE hasD
         return;
     }
 
-    pAccelRenderer->AccelUpdateLoop();
+    pGyroRenderer->GyroUpdateLoop();
 }
 
-void AccelRenderer::UpdateSample()
+void GyroRenderer::UpdateSample()
 {
     HRESULT hr = S_OK;
 }

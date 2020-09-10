@@ -142,6 +142,14 @@ void SensorVisualizationScenario::IntializeSensors()
         {
             winrt::check_hresult(m_pSensorDevice->GetSensor(sensorDescriptor.sensorType, &m_pAccelSensor));
         }
+        if (sensorDescriptor.sensorType == IMU_GYRO)
+        {
+            winrt::check_hresult(m_pSensorDevice->GetSensor(sensorDescriptor.sensorType, &m_pGyroSensor));
+        }
+        if (sensorDescriptor.sensorType == IMU_MAG)
+        {
+            winrt::check_hresult(m_pSensorDevice->GetSensor(sensorDescriptor.sensorType, &m_pMagSensor));
+        }
     }
 }
 
@@ -264,6 +272,16 @@ void SensorVisualizationScenario::IntializeModelRendering()
     {
         m_AccelRenderer = std::make_shared<AccelRenderer>(m_deviceResources, m_pAccelSensor, imuConsentGiven, &imuAccessCheck);
     }
+
+    if (m_pGyroSensor)
+    {
+        m_GyroRenderer = std::make_shared<GyroRenderer>(m_deviceResources, m_pGyroSensor, imuConsentGiven, &imuAccessCheck);
+    }
+
+    if (m_pMagSensor)
+    {
+        m_MagRenderer = std::make_shared<MagRenderer>(m_deviceResources, m_pMagSensor, imuConsentGiven, &imuAccessCheck);
+    }
 }
 
 void SensorVisualizationScenario::PositionHologram(winrt::Windows::UI::Input::Spatial::SpatialPointerPose const& pointerPose, const DX::StepTimer& timer)
@@ -289,7 +307,7 @@ void SensorVisualizationScenario::PositionHologramNoSmoothing(winrt::Windows::UI
 void SensorVisualizationScenario::UpdateModels(DX::StepTimer &timer)
 {
     HRESULT hr = S_OK;
-    DirectX::XMFLOAT3 accelSample;
+    DirectX::XMFLOAT3 imuSample;
 //  char printString[1000];
     float vectorLength = 0.0f;
     float scalex = 0;
@@ -306,20 +324,19 @@ void SensorVisualizationScenario::UpdateModels(DX::StepTimer &timer)
         m_modelRenderers[i]->Update(timer);
     }
 
-    m_AccelRenderer->GetAccelSample(&accelSample);
+#define VISUALIZE_ACCEL
 
-//  sprintf(printString, "####Visualization Accel: % 3.4f % 3.4f % 3.4f %f\n",
-//      accelSample.x,
-//      accelSample.y,
-//      accelSample.z,
-//      sqrt(accelSample.x * accelSample.x + accelSample.y * accelSample.y + accelSample.z * accelSample.z));
-//  OutputDebugStringA(printString);
+#ifdef VISUALIZE_ACCEL
+    m_AccelRenderer->GetAccelSample(&imuSample);
+#else
+    m_GyroRenderer->GetGyroSample(&imuSample);
+#endif
 
-    vectorLength = sqrt(accelSample.x * accelSample.x + accelSample.y * accelSample.y + accelSample.z * accelSample.z);
+    vectorLength = sqrt(imuSample.x * imuSample.x + imuSample.y * imuSample.y + imuSample.z * imuSample.z);
 
-    scalex = accelSample.x / vectorLength;
-    scaley = accelSample.y / vectorLength;
-    scalez = accelSample.z / vectorLength;
+    scalex = imuSample.x / vectorLength;
+    scaley = imuSample.y / vectorLength;
+    scalez = imuSample.z / vectorLength;
 
     xscaleTransform = DirectX::XMMatrixScaling(scalex, 1.0f, 1.0f);
     m_xaxisOriginRenderer->SetModelTransform(xscaleTransform);
@@ -335,13 +352,6 @@ void SensorVisualizationScenario::UpdateModels(DX::StepTimer &timer)
     {
         lastLTTimeStamp = m_LTCameraRenderer->GetLastTimeStamp();
     }
-
-//  sprintf(printString, "####Times: %I64d %I64d %I64d\n",
-//      lastLFTimeStamp,
-//      lastLTTimeStamp,
-//      lastLFTimeStamp - lastLTTimeStamp);
-//
-//  OutputDebugStringA(printString);
 }
 
 void SensorVisualizationScenario::RenderModels()
