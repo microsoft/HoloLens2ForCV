@@ -35,7 +35,7 @@ then use the`download` command to download from HoloLens to the output folder an
 # Python postprocessing
 To postprocess the recorded data, you can use the python scripts inside the `StreamRecorderConverter` folder.
 
-Requirements: python3 with numpy, opencv-python, open3d.
+Requirements: python3 with numpy, opencv-python, open3d-python.
 
 The app comes with a set of python scripts. Note that all the functionalities provided by these scripts can be accessed via the `recorder_console.py` script, which in turn launches `process_all.py`, so there is in principle no need to use single scripts.
 
