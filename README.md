@@ -26,6 +26,10 @@ The repository contains four sample apps:
 
 The StreamRecorder app uses [Cannon](https://github.com/microsoft/HoloLens2ForCV/tree/main/Samples/StreamRecorder/StreamRecorderApp/Cannon), a collection of wrappers and utility code for building native mixed reality apps using C++, Direct3D and Windows Perception APIs. It can be used as-is outside Research Mode for fast and easy native development.
 
+# Setup
+
+The earliest build that fully supports research mode is 19041.1364. Please join the Windows Insider Program to get preview builds. After that, in the device portal, enable research mode, different than recording mode. See https://github.com/microsoft/HoloLens2ForCV/blob/main/Docs/ECCV2020-Tutorial/ECCV2020-ResearchMode-Api.pdf (slides 6, 7 and 8) or Setup section in https://github.com/microsoft/HoloLens2ForCV/blob/main/Docs/ResearchMode-ApiDoc.pdf. Finally only arm64 applications are supported for now.
+
 # Citing our work
 
 If you find HoloLens 2 Research Mode useful for your research, please cite our work:
