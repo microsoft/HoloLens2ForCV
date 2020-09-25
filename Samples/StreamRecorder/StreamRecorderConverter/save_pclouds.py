@@ -76,6 +76,7 @@ def save_single_pcloud(shared_dict,
     output_path = str(path)[:-4] + f'{suffix}.ply'
 
     if Path(output_path).exists():
+        print(output_path + ' is already exists, skip generating this pclouds')
         return
 
     print(".", end="", flush=True)
@@ -160,9 +161,9 @@ def save_single_pcloud(shared_dict,
                                 {intrinsic_list[3]} \n")
 
                     # Create rgb and depth paths
-                    rgb_parts = Path(rgb_proj_path).parts[2:]
+                    rgb_parts = Path(rgb_proj_path).parts[3:]
                     rgb_tmp = Path(rgb_parts[1]) / Path(rgb_parts[2])
-                    depth_parts = Path(depth_proj_path).parts[2:]
+                    depth_parts = Path(depth_proj_path).parts[3:]
                     depth_tmp = Path(depth_parts[1]) / Path(depth_parts[2])
 
                     # Compute camera center
@@ -198,7 +199,7 @@ def save_ply(output_path, points, rgb=None, cam2world_transform=None):
 
 def load_extrinsics(extrinsics_path):
     assert Path(extrinsics_path).exists()
-    mtx = np.loadtxt(extrinsics_path, delimiter=',').reshape((4, 4))
+    mtx = np.loadtxt(str(extrinsics_path), delimiter=',').reshape((4, 4))
     return mtx
 
 
@@ -224,7 +225,7 @@ def extract_timestamp(path):
 
 def load_rig2world_transforms(path):
     transforms = {}
-    data = np.loadtxt(path, delimiter=',')
+    data = np.loadtxt(str(path), delimiter=',')
     for value in data:
         timestamp = value[0]
         transform = value[1:].reshape((4, 4))
@@ -276,7 +277,7 @@ def save_pclouds(folder,
 
     # from rig to world transformations (one per frame)
     rig2world_transforms = load_rig2world_transforms(
-        rig2world_path) if rig2world_path is not '' and Path(rig2world_path).exists() else None
+        rig2world_path) if rig2world_path != '' and Path(rig2world_path).exists() else None
     depth_path = Path(folder / sensor_name)
     depth_path.mkdir(exist_ok=True)
 
@@ -381,4 +382,4 @@ if __name__ == '__main__':
                          args.clamp_min,
                          args.clamp_max,
                          args.depth_path_suffix,
-                         not args.disable_project_pinhole)
+                         args.disable_project_pinhole)
