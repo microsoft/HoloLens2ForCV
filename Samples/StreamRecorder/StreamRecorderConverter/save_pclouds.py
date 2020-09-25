@@ -75,9 +75,11 @@ def save_single_pcloud(shared_dict,
     suffix = '_cam' if save_in_cam_space else ''
     output_path = str(path)[:-4] + f'{suffix}.ply'
 
-    if Path(output_path).exists():
-        print(output_path + ' is already exists, skip generating this pclouds')
-        return
+
+#    if Path(output_path).exists():
+#        print(output_path + ' is already exists, skip generating this pclouds')
+#        return
+
 
     print(".", end="", flush=True)
 
