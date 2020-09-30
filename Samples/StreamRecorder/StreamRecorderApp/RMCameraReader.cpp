@@ -155,14 +155,6 @@ void RMCameraReader::DumpCalibration()
     
     fileExtrinsics.close();
 
-    // Get intrinsics (as LUT)
-    // For this implementation, we save LUT only for the depth camera
-    // This can be changed if one wants to get intrinsics information about VLCs
-    if ((m_pRMSensor->GetSensorType() != DEPTH_LONG_THROW) && (m_pRMSensor->GetSensorType() != DEPTH_AHAT))
-    {
-        return;
-    }
-
     wchar_t outputPath[MAX_PATH] = {};    
     swprintf_s(outputPath, L"%s\\%s_lut.bin", m_storageFolder.Path().data(), m_pRMSensor->GetFriendlyName());
     
