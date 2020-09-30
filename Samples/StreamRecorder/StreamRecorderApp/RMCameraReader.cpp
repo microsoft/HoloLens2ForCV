@@ -155,16 +155,6 @@ void RMCameraReader::DumpCalibration()
     
     fileExtrinsics.close();
 
-	// Get intrinsics (as LUT) for all research mode sensors except IMU
-	if (
-		(m_pRMSensor->GetSensorType() == IMU_ACCEL)
-		|| (m_pRMSensor->GetSensorType() == IMU_GYRO)
-		|| (m_pRMSensor->GetSensorType() == IMU_MAG)
-		)
-	{
-		return;
-	}
-
     wchar_t outputPath[MAX_PATH] = {};    
     swprintf_s(outputPath, L"%s\\%s_lut.bin", m_storageFolder.Path().data(), m_pRMSensor->GetFriendlyName());
     
