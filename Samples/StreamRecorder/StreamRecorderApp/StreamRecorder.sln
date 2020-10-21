@@ -7,19 +7,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StreamRecorder", "StreamRec
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|ARM = Debug|ARM
 		Debug|ARM64 = Debug|ARM64
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
-		Release|ARM = Release|ARM
 		Release|ARM64 = Release|ARM64
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B2E84878-3E25-42EB-8BBB-4CB2DFA0471F}.Debug|ARM.ActiveCfg = Debug|ARM
-		{B2E84878-3E25-42EB-8BBB-4CB2DFA0471F}.Debug|ARM.Build.0 = Debug|ARM
-		{B2E84878-3E25-42EB-8BBB-4CB2DFA0471F}.Debug|ARM.Deploy.0 = Debug|ARM
 		{B2E84878-3E25-42EB-8BBB-4CB2DFA0471F}.Debug|ARM64.ActiveCfg = Debug|ARM64
 		{B2E84878-3E25-42EB-8BBB-4CB2DFA0471F}.Debug|ARM64.Build.0 = Debug|ARM64
 		{B2E84878-3E25-42EB-8BBB-4CB2DFA0471F}.Debug|ARM64.Deploy.0 = Debug|ARM64
@@ -29,9 +24,6 @@ Global
 		{B2E84878-3E25-42EB-8BBB-4CB2DFA0471F}.Debug|x86.ActiveCfg = Debug|Win32
 		{B2E84878-3E25-42EB-8BBB-4CB2DFA0471F}.Debug|x86.Build.0 = Debug|Win32
 		{B2E84878-3E25-42EB-8BBB-4CB2DFA0471F}.Debug|x86.Deploy.0 = Debug|Win32
-		{B2E84878-3E25-42EB-8BBB-4CB2DFA0471F}.Release|ARM.ActiveCfg = Release|ARM
-		{B2E84878-3E25-42EB-8BBB-4CB2DFA0471F}.Release|ARM.Build.0 = Release|ARM
-		{B2E84878-3E25-42EB-8BBB-4CB2DFA0471F}.Release|ARM.Deploy.0 = Release|ARM
 		{B2E84878-3E25-42EB-8BBB-4CB2DFA0471F}.Release|ARM64.ActiveCfg = Release|ARM64
 		{B2E84878-3E25-42EB-8BBB-4CB2DFA0471F}.Release|ARM64.Build.0 = Release|ARM64
 		{B2E84878-3E25-42EB-8BBB-4CB2DFA0471F}.Release|ARM64.Deploy.0 = Release|ARM64
