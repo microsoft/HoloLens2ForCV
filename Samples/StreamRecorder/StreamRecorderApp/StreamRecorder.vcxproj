@@ -113,7 +113,7 @@
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PreprocessorDefinitions>WIN32_LEAN_AND_MEAN;NOMINMAX;NODRAWTEXT;_ENABLE_EXTENDED_ALIGNED_STORAGE;_UNICODE;UNICODE;%(PreprocessorDefinitions);ENABLE_QRCODE_API</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_XM_NO_INTRINSICS_;WIN32_LEAN_AND_MEAN;NOMINMAX;NODRAWTEXT;_ENABLE_EXTENDED_ALIGNED_STORAGE;_UNICODE;UNICODE;%(PreprocessorDefinitions);ENABLE_QRCODE_API</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
@@ -124,7 +124,7 @@
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PreprocessorDefinitions>WIN32_LEAN_AND_MEAN;NOMINMAX;NODRAWTEXT;_ENABLE_EXTENDED_ALIGNED_STORAGE;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32_LEAN_AND_MEAN;NOMINMAX;NODRAWTEXT;_XM_NO_INTRINSICS_;_ENABLE_EXTENDED_ALIGNED_STORAGE;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
@@ -135,7 +135,7 @@
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PreprocessorDefinitions>WIN32_LEAN_AND_MEAN;NOMINMAX;NODRAWTEXT;_ENABLE_EXTENDED_ALIGNED_STORAGE;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32_LEAN_AND_MEAN;NOMINMAX;NODRAWTEXT;_XM_NO_INTRINSICS_;_ENABLE_EXTENDED_ALIGNED_STORAGE;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
