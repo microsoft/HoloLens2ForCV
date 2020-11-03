@@ -40,7 +40,7 @@ std::vector<ResearchModeSensorType> AppMain::kEnabledRMStreamTypes = { ResearchM
 	PV,  // RGB
 	EYE  // Eye gaze tracking
 }*/
-std::vector<StreamTypes> AppMain::kEnabledStreamTypes = { };
+std::vector<StreamTypes> AppMain::kEnabledStreamTypes = { StreamTypes::PV };
 
 AppMain::AppMain() :
 	m_recording(false),
@@ -71,6 +71,7 @@ AppMain::AppMain() :
 	m_menu.AddButton(make_shared<FloatingSlateButton>(XMVectorSet(0.025f, 0.0f, 0.0f, 1.0f), mainButtonSize, XMVectorSet(0.5f, 0.0f, 0.0f, 1.0f), (unsigned)ButtonID::Stop, this, "Stop"));
 
 	m_hethateyeStream.Clear();
+
 
 	if (AppMain::kEnabledRMStreamTypes.size() > 0)
 	{
