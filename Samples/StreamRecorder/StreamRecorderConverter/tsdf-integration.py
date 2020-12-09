@@ -35,10 +35,18 @@ if __name__ == '__main__':
     trajectory = o3d.io.read_pinhole_camera_trajectory(
         str(pinhole_path / 'odometry.log'))
 
-    volume = o3d.integration.ScalableTSDFVolume(
+    # Take care of open3d api change from 0.11
+    o3d_integration = None
+    o3d_version = float(o3d.__version__[:o3d.__version__.rfind('.')])
+    if o3d_version < 0.11:
+        o3d_integration = o3d.integration
+    else:
+        o3d_integration = o3d.pipelines.integration
+        
+    volume = o3d_integration.ScalableTSDFVolume(
         voxel_length=args.voxel_size,
         sdf_trunc=args.voxel_size*3,  # truncation value is set at 3x voxel size
-        color_type=o3d.integration.TSDFVolumeColorType.RGB8)
+        color_type=o3d_integration.TSDFVolumeColorType.RGB8)
     #   color_type=o3d.integration.TSDFVolumeColorType.NoColor)
 
     intrinsic_path = pinhole_path / "calibration.txt"
