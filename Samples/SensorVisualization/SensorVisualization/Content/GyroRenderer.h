@@ -52,7 +52,7 @@ namespace BasicHologram
         void GetGyroSample(DirectX::XMFLOAT3 *pGyroSample);
 
     private:
-        static void GyroRenderer::GyroUpdateThread(GyroRenderer* pSpinningCube, HANDLE hasData, ResearchModeSensorConsent *pCamAccessConsent);
+        static void GyroUpdateThread(GyroRenderer* pSpinningCube, HANDLE hasData, ResearchModeSensorConsent *pCamAccessConsent);
         void GyroUpdateLoop();
 
         // If the current D3D Device supports VPRT, we can avoid using a geometry

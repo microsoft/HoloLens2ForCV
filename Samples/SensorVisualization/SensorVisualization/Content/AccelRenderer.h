@@ -52,7 +52,7 @@ namespace BasicHologram
         void GetAccelSample(DirectX::XMFLOAT3 *pAccleSample);
 
     private:
-        static void AccelRenderer::AccelUpdateThread(AccelRenderer* pSpinningCube, HANDLE hasData, ResearchModeSensorConsent *pCamAccessConsent);
+        static void AccelUpdateThread(AccelRenderer* pSpinningCube, HANDLE hasData, ResearchModeSensorConsent *pCamAccessConsent);
         void AccelUpdateLoop();
 
         // If the current D3D Device supports VPRT, we can avoid using a geometry
