@@ -51,7 +51,7 @@ namespace BasicHologram
             m_rotation = rotation;
         }
 
-        void SetColor(DirectX::XMFLOAT3 &color)
+        void SetColor(DirectX::XMFLOAT3 color)
         {
             m_originColor = color;
         }

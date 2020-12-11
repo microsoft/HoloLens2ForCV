@@ -52,7 +52,7 @@ namespace BasicHologram
         void GetMagSample(DirectX::XMFLOAT3 *pAccleSample);
 
     private:
-        static void MagRenderer::MagUpdateThread(MagRenderer* pSpinningCube, HANDLE hasData, ResearchModeSensorConsent *pCamAccessConsent);
+        static void MagUpdateThread(MagRenderer* pSpinningCube, HANDLE hasData, ResearchModeSensorConsent *pCamAccessConsent);
         void MagUpdateLoop();
 
         // If the current D3D Device supports VPRT, we can avoid using a geometry

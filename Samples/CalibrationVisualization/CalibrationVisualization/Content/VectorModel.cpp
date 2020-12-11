@@ -30,7 +30,7 @@ VectorModel::VectorModel(std::shared_ptr<DX::DeviceResources> const& deviceResou
     SetDirection(vectorFromOrigin);
 }
 
-void VectorModel::SetDirection(DirectX::XMFLOAT3 &vectorFromOrigin)
+void VectorModel::SetDirection(DirectX::XMFLOAT3 vectorFromOrigin)
 {
     m_vectorFromOrigin = vectorFromOrigin;
     XMFLOAT3 xfunitVector;

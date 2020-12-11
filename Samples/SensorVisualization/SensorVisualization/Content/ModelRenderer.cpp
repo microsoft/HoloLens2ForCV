@@ -268,7 +268,7 @@ std::future<void> ModelRenderer::CreateDeviceDependentResources()
     // Shaders will be loaded asynchronously.
 
     // After the vertex shader file is loaded, create the shader and input layout.
-    std::vector<byte> vertexShaderFileData = await DX::ReadDataAsync(vertexShaderFileName);
+    std::vector<byte> vertexShaderFileData = co_await DX::ReadDataAsync(vertexShaderFileName);
     winrt::check_hresult(
         m_deviceResources->GetD3DDevice()->CreateVertexShader(
             vertexShaderFileData.data(),
@@ -295,7 +295,7 @@ std::future<void> ModelRenderer::CreateDeviceDependentResources()
 
     //std::wstring pixelShaderFile = L"ms-appx:///PixelShader.cso";
     // After the pixel shader file is loaded, create the shader and constant buffer.
-    std::vector<byte> pixelShaderFileData = await DX::ReadDataAsync(m_pixelShaderFile.data());
+    std::vector<byte> pixelShaderFileData = co_await DX::ReadDataAsync(m_pixelShaderFile.data());
     winrt::check_hresult(
         m_deviceResources->GetD3DDevice()->CreatePixelShader(
             pixelShaderFileData.data(),
@@ -316,7 +316,7 @@ std::future<void> ModelRenderer::CreateDeviceDependentResources()
     if (!m_usingVprtShaders)
     {
         // Load the pass-through geometry shader.
-        std::vector<byte> geometryShaderFileData = await DX::ReadDataAsync(L"ms-appx:///GeometryShader.cso");
+        std::vector<byte> geometryShaderFileData = co_await DX::ReadDataAsync(L"ms-appx:///GeometryShader.cso");
 
         // After the pass-through geometry shader file is loaded, create the shader.
         winrt::check_hresult(
