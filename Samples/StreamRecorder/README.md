@@ -34,6 +34,21 @@ The StreamRecorder app captures and saves to disk the following HoloLens streams
 
 ## Running the app
 
+1. Run from the debugger in Visual Studio by pressing F5
+2. The app will show up in the start menu in HoloLens
+
+## Key concepts
+
+Consent Prompts
+Main Sensor Reading Loop
+Camera Sensors
+Sensors > Sensor Frames 
+Sensor Coordinate Frames
+    > Integrating with Perception APIs
+    > Map and un-map APIs
+
+**Capturing Streams**
+
 The streams to be captured should be specified at compile time, by modifying appropriately the first lines of AppMain.cpp.
 
 For example:
@@ -43,8 +58,6 @@ std::vector<StreamTypes> AppMain::kEnabledStreamTypes = { StreamTypes::PV };
 ```
 
 After app deployment, you should see a menu with two buttons, **Start** and **s**. Push Start to start the capture and Stop when you are done.
-
-## Key concepts
 
 **Recorded data**
 

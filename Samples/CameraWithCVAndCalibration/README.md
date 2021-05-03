@@ -36,9 +36,15 @@ The sample is a Holographic UWP application that demonstrates uses OpenCV to det
 
 ## Running the sample
 
-1. 
+1. Run from the debugger in Visual Studio by pressing F5
+2. The app will show up in the start menu in HoloLens
 
 ## Key concepts
+
+Consent Prompts
+Main Sensor Reading Loop
+Camera Sensors
+Sensors > Sensor Frames 
 
 ## See also
 

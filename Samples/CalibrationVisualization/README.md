@@ -34,9 +34,13 @@ This sample is a Holographic UWP application that demonstrates visualizing senso
 
 ## Running the sample
 
-1. 
+1. Run from the debugger in Visual Studio by pressing F5
+2. The app will show up in the start menu in HoloLens
 
 ## Key concepts
+
+Sensor Types optional...
+Sensor Coordinate frames
 
 ## See also
 
