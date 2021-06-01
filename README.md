@@ -1,5 +1,15 @@
+---
+page_type: sample
+name: HoloLens2ForCV samples
+description: HoloLens 2 Research Mode samples showcasing raw streams on device, including depth camera, gray-scale cameras, and IMU.
+languages:
+- cpp
+products:
+- windows-mixed-reality
+- hololens
+---
 
-# Purpose
+# HoloLens2ForCV samples
 
 HoloLens 2 Research Mode enables access to the raw streams on device (depth camera, gray-scale cameras, IMU).
 

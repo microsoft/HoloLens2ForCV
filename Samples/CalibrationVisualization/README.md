@@ -25,7 +25,7 @@ This sample is a Holographic UWP application that demonstrates visualizing senso
 
 ## Prerequisites
 
-* Install the [latest Mixed Reality tools](https://docs.microsoft.com/windows/mixed-reality/develop/install-the-tools?tabs=unity)
+* Install the [latest Mixed Reality tools](https://docs.microsoft.com/windows/mixed-reality/develop/install-the-tools)
 
 ## Setup
 
@@ -39,8 +39,9 @@ This sample is a Holographic UWP application that demonstrates visualizing senso
 
 ## Key concepts
 
-Sensor Types optional...
-Sensor Coordinate frames
+Refer to the **Docs/ResearchMode-ApiDoc.pdf** documentation, and pay special attention to the sections on:
+* **Sensor Types** 
+* **Sensor Coordinate frames**
 
 ## See also
 

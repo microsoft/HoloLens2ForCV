@@ -25,7 +25,7 @@ The StreamRecorder app captures and saves to disk the following HoloLens streams
 
 ## Prerequisites
 
-* Install the [latest Mixed Reality tools](https://docs.microsoft.com/windows/mixed-reality/develop/install-the-tools?tabs=unity)
+* Install the [latest Mixed Reality tools](https://docs.microsoft.com/windows/mixed-reality/develop/install-the-tools)
 
 ## Setup
 
@@ -39,13 +39,13 @@ The StreamRecorder app captures and saves to disk the following HoloLens streams
 
 ## Key concepts
 
-Consent Prompts
-Main Sensor Reading Loop
-Camera Sensors
-Sensors > Sensor Frames 
-Sensor Coordinate Frames
-    > Integrating with Perception APIs
-    > Map and un-map APIs
+Refer to the **Docs/ResearchMode-ApiDoc.pdf** documentation, and pay special attention to the sections on: 
+* **Consent Prompts**
+* **Main Sensor Reading Loop**
+* **Camera Sensors**
+* **Sensors > Sensor Frames**
+* **Sensor Coordinate Frames > Integrating with Perception APIs**
+* **Sensor Coordinate Frames > Map and un-map APIs**
 
 **Capturing Streams**
 
