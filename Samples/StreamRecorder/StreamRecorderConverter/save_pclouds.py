@@ -208,7 +208,7 @@ def load_extrinsics(extrinsics_path):
 def get_points_in_cam_space(img, lut):
     img = np.tile(img.flatten().reshape((-1, 1)), (1, 3))
     points = img * lut
-    remove_ids = np.where(np.sum(points, axis=1) < 1e-6)[0]
+    remove_ids = np.where(np.sqrt(np.sum(points**2, axis=1)) < 1e-6)[0]
     points = np.delete(points, remove_ids, axis=0)
     points /= 1000.
     return points
@@ -222,15 +222,18 @@ def cam2world(points, rig2cam, rig2world):
 
 
 def extract_timestamp(path):
-    return float(path.split('.')[0])
+    return int(path.split('.')[0])
 
 
 def load_rig2world_transforms(path):
     transforms = {}
-    data = np.loadtxt(str(path), delimiter=',')
-    for value in data:
-        timestamp = value[0]
-        transform = value[1:].reshape((4, 4))
+    with open(path, "r") as f:
+        lines = [l.strip() for l in f.readlines()]
+    for line in lines:
+        value = line.split(",")
+        timestamp = int(value[0])
+        transform_entries = [float(v) for v in value[1:]]
+        transform = np.array(transform_entries).reshape((4, 4))
         transforms[timestamp] = transform
     return transforms
 
