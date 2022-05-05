@@ -312,7 +312,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <ReferencePath>$(VC_ReferencesPath_ARM64);$(SolutionDir)\researchmode</ReferencePath>
-    <LibraryPath>$(VC_LibraryPath_ARM64);$(WindowsSDK_LibraryPath_ARM64);$(NETFXKitsDir)Lib\um\arm64;$(SolutionDir)\researchmode;$(SolutionDir)\researchmode;$(SolutionDir)\OpenCvInstallArm64-412d\x64\\vc15\staticlib</LibraryPath>
+    <LibraryPath>$(VC_LibraryPath_ARM64);$(WindowsSDK_LibraryPath_ARM64);$(NETFXKitsDir)Lib\um\arm64;$(SolutionDir)researchmode;$(SolutionDir)OpenCvInstallArm64-412d\x64\vc15\staticlib</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <LibraryPath>$(VC_LibraryPath_ARM64);$(WindowsSDK_LibraryPath_ARM64);$(NETFXKitsDir)Lib\um\arm64;$(SolutionDir)\OpenCvInstallArm64-412d\x64\\vc15\staticlib</LibraryPath>
