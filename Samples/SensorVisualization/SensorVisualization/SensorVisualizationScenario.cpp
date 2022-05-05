@@ -53,9 +53,21 @@ SensorVisualizationScenario::~SensorVisualizationScenario()
     {
         m_pLTSensor->Release();
     }
-    if (m_pLTSensor)
+    if (m_pAHATSensor)
     {
-        m_pLTSensor->Release();
+        m_pAHATSensor->Release();
+    }
+    if (m_pAccelSensor)
+    {
+        m_pAccelSensor->Release();
+    }
+    if (m_pGyroSensor)
+    {
+        m_pGyroSensor->Release();
+    }
+    if (m_pMagSensor)
+    {
+        m_pMagSensor->Release();
     }
 
     if (m_pSensorDevice)
