@@ -122,14 +122,14 @@ def project_on_pv(points, pv_img, pv2world_transform, focal_length, principal_po
     world2pv_transform = np.linalg.inv(pv2world_transform)
     points_pv = (world2pv_transform @ homog_points.T).T[:, :3]
 
-    intrinsic_matrix = np.array([[focal_length[0], 0, principal_point[0]], [
+    intrinsic_matrix = np.array([[focal_length[0], 0, width-principal_point[0]], [
         0, focal_length[1], principal_point[1]], [0, 0, 1]])
     rvec = np.zeros(3)
     tvec = np.zeros(3)
     xy, _ = cv2.projectPoints(points_pv, rvec, tvec, intrinsic_matrix, None)
     xy = np.squeeze(xy)
     xy[:, 0] = width - xy[:, 0]
-    xy = np.around(xy).astype(int)
+    xy = np.floor(xy).astype(int)
 
     rgb = np.zeros_like(points)
     width_check = np.logical_and(0 <= xy[:, 0], xy[:, 0] < width)
